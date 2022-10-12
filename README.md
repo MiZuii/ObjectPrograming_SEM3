@@ -1,2 +1,2 @@
 # ObjectPrograming_SEM3
-## Test commit
+link do kursu: http://github.com/apohllo/obiektowe-lab
