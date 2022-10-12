@@ -31,11 +31,13 @@ public class World {
 
     public static void main(String[] args) {
         System.out.println("system wystartowal");
-//        String[] tmp_array = new String[4];
-//        tmp_array[0] = "f";
-//        tmp_array[1] = "b";
-//        tmp_array[2] = "r";
-//        tmp_array[3] = "l";
+
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+
         run(directions_to_str(args));
         System.out.println("system zakonczyl dzialanie");
     }
