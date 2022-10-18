@@ -71,8 +71,11 @@ public class Vector2d {
 
     @Override
     public int hashCode() {
-
-        return 0;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (this.x ^ (this.x >>> 32));
+        result = prime * result + (int) (this.y ^ (this.y >>> 32));
+        return result;
     }
 
     public Vector2d oposite() {

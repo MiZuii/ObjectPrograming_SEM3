@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.Vector;
+
 public class World {
 
     static void run(Direction[] arguments) {
@@ -16,21 +18,26 @@ public class World {
     }
 
     static Direction[] directions_to_str(String[] arg) {
-        Direction[] ans = new Direction[arg.length];
+        Vector<Direction> ans = new Vector<Direction>();
         int i=0;
         for (String s: arg) {
             switch(s){
-                case "f" -> ans[i++] = Direction.FORWARD;
-                case "b" -> ans[i++] = Direction.BACKWARD;
-                case "r" -> ans[i++] = Direction.RIGHT;
-                case "l" -> ans[i++] = Direction.LEFT;
+                case "f" -> ans.add(Direction.FORWARD);
+                case "b" -> ans.add(Direction.BACKWARD);
+                case "r" -> ans.add(Direction.RIGHT);
+                case "l" -> ans.add(Direction.LEFT);
+                default -> {continue;}
             }
         }
-        return ans;
+        // Vector to array
+        Direction[] conv = new Direction[ans.size()];
+        for (Direction dir : ans) {
+            conv[i++] = dir;
+        }
+        return conv;
     }
 
     public static void main(String[] args) {
-        System.out.println("system wystartowal");
 
         Vector2d position1 = new Vector2d(1,2);
         System.out.println(position1);
@@ -38,8 +45,6 @@ public class World {
         System.out.println(position2);
         System.out.println(position1.add(position2));
 
-        run(directions_to_str(args));
-        System.out.println("system zakonczyl dzialanie");
     }
 
 }
