@@ -59,6 +59,7 @@ public class Vector2d {
         return new Vector2d(this.x - other.x, this.y - other.y);
     }
 
+    @Override
     public boolean equals(Object other) {
         if (this == other) { return true; }
         if (!(other instanceof Vector2d)) { return false; }
@@ -66,6 +67,12 @@ public class Vector2d {
 
         if (this.x == that.x && this.y == that.y) { return true; }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return 0;
     }
 
     public Vector2d oposite() {
