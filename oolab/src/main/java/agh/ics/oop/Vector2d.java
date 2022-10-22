@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import java.util.Objects;
 import java.util.Vector;
 
 public class Vector2d {
@@ -71,11 +72,7 @@ public class Vector2d {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (int) (this.x ^ (this.x >>> 32));
-        result = prime * result + (int) (this.y ^ (this.y >>> 32));
-        return result;
+        return Objects.hash(this.x, this.y);
     }
 
     public Vector2d oposite() {
