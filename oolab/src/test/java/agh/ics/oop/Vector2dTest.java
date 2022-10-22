@@ -20,7 +20,9 @@ class Vector2dTest {
         assertTrue(new Vector2d(1, 3).precedes(new Vector2d(2, 3)));
         assertFalse(new Vector2d(1, 3).precedes(new Vector2d(0, 4)));
         assertFalse(new Vector2d(1, 3).precedes(new Vector2d(2, 2)));
-        assertFalse(new Vector2d(1, 3).precedes(new Vector2d(2, -3)));
+        assertTrue(new Vector2d(-1, -2).precedes(new Vector2d(0, -1)));
+        assertTrue(new Vector2d(-1, -2).precedes(new Vector2d(-1, -2)));
+        assertTrue(new Vector2d(4, 6).precedes(new Vector2d(4, 6)));
     }
 
     @Test
@@ -31,6 +33,8 @@ class Vector2dTest {
         assertTrue(new Vector2d(1, 3).follows(new Vector2d(0, 3)));
         assertTrue(new Vector2d(1, 3).follows(new Vector2d(1, 2)));
         assertTrue(new Vector2d(1, 3).follows(new Vector2d(0, -3)));
+        assertTrue(new Vector2d(-3, -2).follows(new Vector2d(-4, -2)));
+        assertTrue(new Vector2d(5, 5).follows(new Vector2d(5, 5)));
     }
 
     @Test
@@ -38,6 +42,7 @@ class Vector2dTest {
         assertEquals(new Vector2d(3, 3), new Vector2d(1, 3).upperRight(new Vector2d(3, 1)));
         assertEquals(new Vector2d(3, 3), new Vector2d(3, 3).upperRight(new Vector2d(3, 1)));
         assertEquals(new Vector2d(-4, -1), new Vector2d(-4, -2).upperRight(new Vector2d(-5, -1)));
+        assertEquals(new Vector2d(1, -1), new Vector2d(1, -1).upperRight(new Vector2d(1, -1)));
     }
 
     @Test
@@ -45,6 +50,7 @@ class Vector2dTest {
         assertEquals(new Vector2d(3, 3), new Vector2d(5, 3).lowerLeft(new Vector2d(3, 5)));
         assertEquals(new Vector2d(3, 3), new Vector2d(3, 3).lowerLeft(new Vector2d(3, 5)));
         assertEquals(new Vector2d(-5, -2), new Vector2d(-4, -2).lowerLeft(new Vector2d(-5, -1)));
+        assertEquals(new Vector2d(1, -1), new Vector2d(1, -1).lowerLeft(new Vector2d(1, -1)));
     }
 
     @Test
@@ -76,5 +82,7 @@ class Vector2dTest {
     void oposite() {
         assertEquals(new Vector2d(0,0), new Vector2d(0, 0).oposite());
         assertEquals(new Vector2d(1,1), new Vector2d(-1, -1).oposite());
+        Vector2d testVec = new Vector2d(9, 9);
+        assertEquals(testVec, testVec.oposite().oposite());
     }
 }

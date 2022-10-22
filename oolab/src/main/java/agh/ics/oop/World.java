@@ -4,9 +4,9 @@ import java.util.Vector;
 
 public class World {
 
-    static void run(Direction[] arguments) {
+    static void run(MoveDirection[] arguments) {
         System.out.println("Start");
-        for (Direction arg : arguments) {
+        for (MoveDirection arg : arguments) {
             switch (arg) {
                 case FORWARD -> System.out.println("Zwierzak idzie do przodu");
                 case BACKWARD -> System.out.println("Zwierzak idzie do tylu");
@@ -17,21 +17,21 @@ public class World {
         System.out.println("Stop");
     }
 
-    static Direction[] directions_to_str(String[] arg) {
-        Vector<Direction> ans = new Vector<Direction>();
+    static MoveDirection[] str_to_Direction(String[] arg) {
+        Vector<MoveDirection> ans = new Vector<MoveDirection>();
         int i=0;
         for (String s: arg) {
             switch(s){
-                case "f" -> ans.add(Direction.FORWARD);
-                case "b" -> ans.add(Direction.BACKWARD);
-                case "r" -> ans.add(Direction.RIGHT);
-                case "l" -> ans.add(Direction.LEFT);
+                case "f" -> ans.add(MoveDirection.FORWARD);
+                case "b" -> ans.add(MoveDirection.BACKWARD);
+                case "r" -> ans.add(MoveDirection.RIGHT);
+                case "l" -> ans.add(MoveDirection.LEFT);
                 default -> {continue;}
             }
         }
         // Vector to array
-        Direction[] conv = new Direction[ans.size()];
-        for (Direction dir : ans) {
+        MoveDirection[] conv = new MoveDirection[ans.size()];
+        for (MoveDirection dir : ans) {
             conv[i++] = dir;
         }
         return conv;
@@ -44,6 +44,8 @@ public class World {
         Vector2d position2 = new Vector2d(-2,1);
         System.out.println(position2);
         System.out.println(position1.add(position2));
+
+        run(str_to_Direction(args));
 
     }
 

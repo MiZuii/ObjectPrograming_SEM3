@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="agh.ics.oop.MapDirectionTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-10-20T09:06:00" hostname="fedora" time="0.039">
-  <properties/>
-  <testcase name="previous()" classname="agh.ics.oop.MapDirectionTest" time="0.036"/>
-  <testcase name="next()" classname="agh.ics.oop.MapDirectionTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
