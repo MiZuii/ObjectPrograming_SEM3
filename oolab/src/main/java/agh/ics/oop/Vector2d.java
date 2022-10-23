@@ -7,6 +7,10 @@ public class Vector2d {
     final int x;
     final int y;
 
+    private boolean isAddOverflow(int x, int y) {
+        return x > 0 ? Integer.MAX_VALUE - x < y : Integer.MIN_VALUE - x > y;
+    }
+
     public Vector2d(int x, int y) {
         this.x = x;
         this.y = y;
@@ -53,10 +57,12 @@ public class Vector2d {
     }
 
     public Vector2d add(Vector2d other) {
+        if (isAddOverflow(this.x, other.x) || isAddOverflow(this.y, other.y)) { return this; }
         return new Vector2d(this.x + other.x, this.y + other.y);
     }
 
     public Vector2d substract(Vector2d other) {
+        if (isAddOverflow(this.x, -other.x) || isAddOverflow(this.y, -other.y)) { return this; }
         return new Vector2d(this.x - other.x, this.y - other.y);
     }
 
