@@ -14,7 +14,7 @@ public enum MapDirection {
             case EAST: return "Wschod";
             case WEST: return "Zachod";
             case NORTH: return "Poludnie";
-            case SOUTH: return "Plunoc";
+            case SOUTH: return "Polnoc";
             default: return "No Direction";
         }
     }

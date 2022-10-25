@@ -58,7 +58,7 @@ class Vector2dTest {
         assertEquals(new Vector2d(3, 3), new Vector2d(1, 3).add(new Vector2d(2, 0)));
         assertEquals(new Vector2d(3, 3), new Vector2d(3, 3).add(new Vector2d(0, 0)));
         assertEquals(new Vector2d(-4, -1), new Vector2d(-4, 0).add(new Vector2d(0, -1)));
-        assertEquals(new Vector2d(1,1), new Vector2d(56, -28).add(new Vector2d(Integer.MAX_VALUE, 5)));
+        assertEquals(new Vector2d(56,-28), new Vector2d(56, -28).add(new Vector2d(Integer.MAX_VALUE, 5)));
     }
 
     @Test

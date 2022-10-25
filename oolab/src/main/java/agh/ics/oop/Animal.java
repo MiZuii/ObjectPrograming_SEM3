@@ -26,11 +26,11 @@ public class Animal {
             case LEFT -> this.orientation = this.orientation.previous();
             case FORWARD -> {
                 this.position = this.position.add(this.orientation.toUnitVector());
-                if (this.inBounds()) { this.position = before_vec; }
+                if (!this.inBounds()) { this.position = before_vec; }
             }
             case BACKWARD -> {
                 this.position = this.position.add(this.orientation.toUnitVector().oposite());
-                if (this.inBounds()) { this.position = before_vec; }
+                if (!this.inBounds()) { this.position = before_vec; }
             }
         }
     }
