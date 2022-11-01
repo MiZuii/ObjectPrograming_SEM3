@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WorldTest {
-
+    
     @Test
     void run_animal() {
         Animal cat = new Animal();
