@@ -26,12 +26,14 @@ public class SimulationEngine implements IEngine{
 
         for (MoveDirection move: this.moves) {
             switch (move) {
-                case FORWARD -> animal.move(MoveDirection.FORWARD);
-                case BACKWARD -> animal.move(MoveDirection.BACKWARD);
-                case LEFT -> animal.move(MoveDirection.LEFT);
-                case RIGHT -> animal.move(MoveDirection.RIGHT);
-                default -> {continue;}
+                case FORWARD -> animal_order.get(iter).move(MoveDirection.FORWARD);
+                case BACKWARD -> animal_order.get(iter).move(MoveDirection.BACKWARD);
+                case LEFT -> animal_order.get(iter).move(MoveDirection.LEFT);
+                case RIGHT -> animal_order.get(iter).move(MoveDirection.RIGHT);
+                default -> {}
             }
+            iter += 1;
+            iter = iter%animal_order.size();
         }
     }
 }
