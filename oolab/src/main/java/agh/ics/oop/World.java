@@ -3,22 +3,12 @@ import java.util.Vector;
 
 public class World {
 
-    static void run_animal(Animal animal, MoveDirection[] arguments) {
-        for (MoveDirection arg : arguments) {
-            switch (arg) {
-                case FORWARD -> animal.move(MoveDirection.FORWARD);
-                case BACKWARD -> animal.move(MoveDirection.BACKWARD);
-                case LEFT -> animal.move(MoveDirection.LEFT);
-                case RIGHT -> animal.move(MoveDirection.RIGHT);
-                default -> {continue;}
-            }
-        }
-    }
-
     public static void main(String[] args) {
-        Animal cat = new Animal();
-        run_animal(cat, new OptionsParser().parse(args));
-        System.out.println(cat.toString());
+        MoveDirection[] directions = new OptionsParser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
     }
 
 }
