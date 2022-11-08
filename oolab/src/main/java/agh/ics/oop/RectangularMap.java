@@ -7,7 +7,6 @@ public class RectangularMap implements IWorldMap{
     private int height;
     private int width;
     private Animal[] map;
-    private ArrayList<Animal> animal_order = new ArrayList<Animal>();
 
     public RectangularMap(int width, int height){
         this.width = width;
@@ -28,7 +27,6 @@ public class RectangularMap implements IWorldMap{
         }
         else {
             this.map[animal.getPosition().y*width + animal.getPosition().x] = animal;
-            this.animal_order.add(animal);
             return true;
         }
     }
@@ -48,9 +46,5 @@ public class RectangularMap implements IWorldMap{
         MapVisualizer graphics = new MapVisualizer(this);
         return graphics.draw(new Vector2d(0,0),
                 new Vector2d(this.width -1, this.height -1));
-    }
-
-    public ArrayList<Animal> getAnimal_order() {
-        return this.animal_order;
     }
 }
