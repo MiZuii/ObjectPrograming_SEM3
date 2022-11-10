@@ -45,4 +45,12 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
+
+    /**
+     * Updates animal position of an prevPos
+     *
+     * @param prevPos
+     *          The previous position of animal
+     */
+    void updatePosition(Vector2d prevPos);
 }

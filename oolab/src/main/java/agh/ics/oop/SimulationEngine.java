@@ -22,25 +22,25 @@ public class SimulationEngine implements IEngine{
 
     @Override
     public void run() {
-        int iter = 0;
+        // printout initial state of the map
+        System.out.print(this.map.toString());
 
-        for (MoveDirection move: this.moves) {
+        for (int iter=0; iter<moves.length; iter++) {
             if (animal_order.isEmpty()) {
                 return;
             }
-            switch (move) {
-                case FORWARD -> {Animal tmp = animal_order.get(iter);
+
+            switch (moves[iter]) {
+                case FORWARD -> {Animal tmp = animal_order.get(iter% animal_order.size());
                                     tmp.move(MoveDirection.FORWARD);}
-                case BACKWARD -> {Animal tmp = animal_order.get(iter);
+                case BACKWARD -> {Animal tmp = animal_order.get(iter% animal_order.size());
                                     tmp.move(MoveDirection.BACKWARD);}
-                case LEFT -> {Animal tmp = animal_order.get(iter);
+                case LEFT -> {Animal tmp = animal_order.get(iter% animal_order.size());
                                     tmp.move(MoveDirection.LEFT);}
-                case RIGHT -> {Animal tmp = animal_order.get(iter);
+                case RIGHT -> {Animal tmp = animal_order.get(iter% animal_order.size());
                                     tmp.move(MoveDirection.RIGHT);}
                 default -> {}
             }
-            iter += 1;
-            iter = iter%animal_order.size();
             System.out.print(this.map.toString());
         }
     }

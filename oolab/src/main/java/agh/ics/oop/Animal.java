@@ -8,7 +8,6 @@ public class Animal {
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
         this.position = initialPosition;
-        this.map.place(this);
     }
 
     @Override
@@ -18,7 +17,7 @@ public class Animal {
             case EAST: return "E";
             case SOUTH: return "S";
             case WEST: return "W";
-            default: return "Unknown direction";
+            default: return "X";
         }
     }
 
@@ -38,12 +37,15 @@ public class Animal {
             case LEFT -> this.orientation = this.orientation.previous();
             case FORWARD -> {
                 this.position = this.position.add(this.orientation.toUnitVector());
-                if (!this.map.canMoveTo(this.position)) { this.position = before_vec; }
             }
             case BACKWARD -> {
                 this.position = this.position.add(this.orientation.toUnitVector().oposite());
-                if (!this.map.canMoveTo(this.position)) { this.position = before_vec; }
             }
         }
+        if (!this.map.canMoveTo(this.position)) {
+            this.position = before_vec;
+            return;
+        }
+        this.map.updatePosition(before_vec);
     }
 }
