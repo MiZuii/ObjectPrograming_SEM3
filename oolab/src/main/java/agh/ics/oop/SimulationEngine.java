@@ -6,7 +6,7 @@ public class SimulationEngine implements IEngine{
 
     private MoveDirection[] moves;
     private IWorldMap map;
-    private ArrayList<Animal> animal_order = new ArrayList<>();
+    private ArrayList<Animal> animal_order = new ArrayList<Animal>();
 
     public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions){
         this.moves = moves;
@@ -25,15 +25,23 @@ public class SimulationEngine implements IEngine{
         int iter = 0;
 
         for (MoveDirection move: this.moves) {
+            if (animal_order.isEmpty()) {
+                return;
+            }
             switch (move) {
-                case FORWARD -> animal_order.get(iter).move(MoveDirection.FORWARD);
-                case BACKWARD -> animal_order.get(iter).move(MoveDirection.BACKWARD);
-                case LEFT -> animal_order.get(iter).move(MoveDirection.LEFT);
-                case RIGHT -> animal_order.get(iter).move(MoveDirection.RIGHT);
+                case FORWARD -> {Animal tmp = animal_order.get(iter);
+                                    tmp.move(MoveDirection.FORWARD);}
+                case BACKWARD -> {Animal tmp = animal_order.get(iter);
+                                    tmp.move(MoveDirection.BACKWARD);}
+                case LEFT -> {Animal tmp = animal_order.get(iter);
+                                    tmp.move(MoveDirection.LEFT);}
+                case RIGHT -> {Animal tmp = animal_order.get(iter);
+                                    tmp.move(MoveDirection.RIGHT);}
                 default -> {}
             }
             iter += 1;
             iter = iter%animal_order.size();
+            System.out.print(this.map.toString());
         }
     }
 }

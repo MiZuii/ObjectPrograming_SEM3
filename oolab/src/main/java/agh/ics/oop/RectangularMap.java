@@ -33,7 +33,7 @@ public class RectangularMap implements IWorldMap{
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return this.map[position.y*width+ position.x] == null;
+        return !(this.map[position.y*width+ position.x] == null);
     }
 
     @Override
@@ -44,7 +44,6 @@ public class RectangularMap implements IWorldMap{
     @Override
     public String toString(){
         MapVisualizer graphics = new MapVisualizer(this);
-        return graphics.draw(new Vector2d(0,0),
-                new Vector2d(this.width -1, this.height -1));
+        return graphics.draw(new Vector2d(0,0), new Vector2d(this.width -1, this.height -1));
     }
 }
