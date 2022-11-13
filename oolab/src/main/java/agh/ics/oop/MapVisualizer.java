@@ -7,7 +7,7 @@ package agh.ics.oop;
  * @author apohllo
  */
 public class MapVisualizer {
-    private static final String EMPTY_CELL = " ";
+    private static final String EMPTY_CELL = "_";
     private static final String FRAME_SEGMENT = "-";
     private static final String CELL_SEGMENT = "|";
     private IWorldMap map;
@@ -61,7 +61,7 @@ public class MapVisualizer {
 
     private String drawHeader(Vector2d lowerLeft, Vector2d upperRight) {
         StringBuilder builder = new StringBuilder();
-        builder.append(" y\\x ");
+        builder.append(" X ");
         for (int j = lowerLeft.x; j < upperRight.x + 1; j++) {
             builder.append(String.format("%2d", j));
         }

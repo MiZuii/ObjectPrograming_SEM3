@@ -56,16 +56,20 @@ public class SimulationEngine implements IEngine{
 
         // swing init
         JFrame frame = new JFrame();
-        JLabel mapv = new JLabel();
+        JLabel mapv = new JLabel("", SwingConstants.CENTER);
         JPanel panel = new JPanel();
+
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridLayout(0, 1));
+        mapv.setFont(new Font("Serif", Font.CENTER_BASELINE, 21));
         panel.add(mapv);
 
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Little Animols");
         frame.pack();
+        frame.setSize(240, 290);
+        frame.setMinimumSize(new Dimension(240, 290));
         frame.setVisible(true);
 
         // printout initial state of the map
@@ -99,7 +103,7 @@ public class SimulationEngine implements IEngine{
             }
             // Wait before drawing next
             try {
-                Thread.sleep(2000);
+                Thread.sleep(500);
             }
             catch (Exception e) {
 
