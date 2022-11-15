@@ -9,16 +9,17 @@ public class SimulationEngine implements IEngine{
 
     private MoveDirection[] moves;
     private IWorldMap map;
-    private ArrayList<Animal> animal_order = new ArrayList<Animal>();
+    private Animal[] animalOrder;
 
     public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions){
         this.moves = moves;
         this.map = map;
 
-        for (Vector2d position: positions) {
-            Animal new_anim = new Animal(this.map, position);
+        for (int i=0; i< positions.length; i++) {
+            Animal new_anim = new Animal(this.map, positions[i]);
+            animalOrder = new Animal[positions.length];
             if (map.place(new_anim)) {
-                this.animal_order.add(new_anim);
+                animalOrder[i] = new_anim;
             }
         }
     }
@@ -29,19 +30,13 @@ public class SimulationEngine implements IEngine{
         System.out.print(this.map.toString());
 
         for (int iter=0; iter<moves.length; iter++) {
-            if (animal_order.isEmpty()) {
-                return;
-            }
+
 
             switch (moves[iter]) {
-                case FORWARD -> {Animal tmp = animal_order.get(iter% animal_order.size());
-                                    tmp.move(MoveDirection.FORWARD);}
-                case BACKWARD -> {Animal tmp = animal_order.get(iter% animal_order.size());
-                                    tmp.move(MoveDirection.BACKWARD);}
-                case LEFT -> {Animal tmp = animal_order.get(iter% animal_order.size());
-                                    tmp.move(MoveDirection.LEFT);}
-                case RIGHT -> {Animal tmp = animal_order.get(iter% animal_order.size());
-                                    tmp.move(MoveDirection.RIGHT);}
+                case FORWARD -> {}
+                case BACKWARD -> {}
+                case LEFT -> {}
+                case RIGHT -> {}
                 default -> {}
             }
             System.out.print(this.map.toString());

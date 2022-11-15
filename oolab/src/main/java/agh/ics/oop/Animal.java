@@ -50,6 +50,5 @@ public class Animal {
             this.position = before_vec;
             return;
         }
-        this.map.updatePosition(before_vec);
     }
 }
