@@ -43,4 +43,11 @@ public class RectangularMap implements IWorldMap{
         MapVisualizer graphics = new MapVisualizer(this);
         return graphics.draw(new Vector2d(0,0), new Vector2d(this.width -1, this.height -1));
     }
+
+    @Override
+    public boolean positionUpdate(Vector2d prev, Vector2d next){
+        if (!(this.map.containsKey(prev))) { return false; } // there is no Object on key 'prev' -> invali function call or error in code
+
+        IMapElement mapObject = (IMapElement)this.map.get(prev);
+    }
 }
