@@ -27,4 +27,7 @@ public class GrassField implements IWorldMap {
     public Object objectAt(Vector2d position) {
         return null;
     }
+
+    @Override
+    public boolean positionUpdate(Vector2d prev, Vector2d next) { return false; }
 }

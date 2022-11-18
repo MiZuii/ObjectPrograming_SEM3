@@ -16,13 +16,13 @@ public class Animal implements IMapElement{
 
     @Override
     public String toString() {
-        switch (this.orientation) {
-            case NORTH: return "N";
-            case EAST: return "E";
-            case SOUTH: return "S";
-            case WEST: return "W";
-            default: return "X";
-        }
+        return switch (this.orientation) {
+            case NORTH -> "N";
+            case EAST -> "E";
+            case SOUTH -> "S";
+            case WEST -> "W";
+            default -> "X";
+        };
     }
 
     public boolean isAt(Vector2d position){
@@ -51,5 +51,6 @@ public class Animal implements IMapElement{
             this.position = before_vec;
             return;
         }
+        this.map.positionUpdate(before_vec, this.position);
     }
 }

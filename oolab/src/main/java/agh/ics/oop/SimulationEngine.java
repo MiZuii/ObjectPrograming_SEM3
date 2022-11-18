@@ -14,14 +14,15 @@ public class SimulationEngine implements IEngine{
     public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions){
         this.moves = moves;
         this.map = map;
+        animalOrder = new Animal[positions.length];
 
         for (int i=0; i< positions.length; i++) {
             Animal new_anim = new Animal(this.map, positions[i]);
-            animalOrder = new Animal[positions.length];
             if (map.place(new_anim)) {
                 animalOrder[i] = new_anim;
             }
         }
+        System.out.println(animalOrder);
     }
 
     @Override
@@ -30,13 +31,11 @@ public class SimulationEngine implements IEngine{
         System.out.print(this.map.toString());
 
         for (int iter=0; iter<moves.length; iter++) {
-
-
             switch (moves[iter]) {
-                case FORWARD -> {}
-                case BACKWARD -> {}
-                case LEFT -> {}
-                case RIGHT -> {}
+                case FORWARD -> this.animalOrder[iter%animalOrder.length].move(MoveDirection.FORWARD);
+                case BACKWARD -> this.animalOrder[iter%animalOrder.length].move(MoveDirection.BACKWARD);
+                case LEFT -> this.animalOrder[iter%animalOrder.length].move(MoveDirection.LEFT);
+                case RIGHT -> this.animalOrder[iter%animalOrder.length].move(MoveDirection.RIGHT);
                 default -> {}
             }
             System.out.print(this.map.toString());
@@ -70,32 +69,15 @@ public class SimulationEngine implements IEngine{
         // printout initial state of the map
         mapv.setText(stringToHtml(this.map.toString()));
         //
-
-        for (int iter = 0; iter < moves.length; iter++) {
-            if (animal_order.isEmpty()) {
-                return;
-            }
-
+        for (int iter=0; iter<moves.length; iter++) {
             switch (moves[iter]) {
-                case FORWARD -> {
-                    Animal tmp = animal_order.get(iter % animal_order.size());
-                    tmp.move(MoveDirection.FORWARD);
-                }
-                case BACKWARD -> {
-                    Animal tmp = animal_order.get(iter % animal_order.size());
-                    tmp.move(MoveDirection.BACKWARD);
-                }
-                case LEFT -> {
-                    Animal tmp = animal_order.get(iter % animal_order.size());
-                    tmp.move(MoveDirection.LEFT);
-                }
-                case RIGHT -> {
-                    Animal tmp = animal_order.get(iter % animal_order.size());
-                    tmp.move(MoveDirection.RIGHT);
-                }
-                default -> {
-                }
+                case FORWARD -> this.animalOrder[iter% animalOrder.length].move(MoveDirection.FORWARD);
+                case BACKWARD -> this.animalOrder[iter% animalOrder.length].move(MoveDirection.BACKWARD);
+                case LEFT -> this.animalOrder[iter% animalOrder.length].move(MoveDirection.LEFT);
+                case RIGHT -> this.animalOrder[iter% animalOrder.length].move(MoveDirection.RIGHT);
+                default -> {}
             }
+
             // Wait before drawing next
             try {
                 Thread.sleep(500);

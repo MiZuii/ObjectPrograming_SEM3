@@ -5,11 +5,12 @@ public class RectangularMap implements IWorldMap{
 
     private int height;     // height of the map (max index = height-1)
     private int width;      // width of the map (max index = width-1)
-    private HashMap<Vector2d, Animal> map;   // hashmap
+    private HashMap<Vector2d, IMapElement> map;   // hashmap
 
     public RectangularMap(int width, int height){
         this.width = width;
         this.height = height;
+        this.map = new HashMap<>();
     }
 
     @Override
@@ -48,6 +49,9 @@ public class RectangularMap implements IWorldMap{
     public boolean positionUpdate(Vector2d prev, Vector2d next){
         if (!(this.map.containsKey(prev))) { return false; } // there is no Object on key 'prev' -> invali function call or error in code
 
-        IMapElement mapObject = (IMapElement)this.map.get(prev);
+        IMapElement mapObject = this.map.get(prev);
+        this.map.remove(prev);
+        this.map.put(next, mapObject);
+        return true;
     }
 }
