@@ -17,10 +17,10 @@ abstract class AbstractWorldMap implements IWorldMap{
 
     @Override
     public boolean positionUpdate(Vector2d prev, Vector2d next) {
-        if (!(this.isOccupied(prev))) { return false; } // there is no Object on key 'prev' -> invali function call or error in code
+        if (!(this.objectAt(prev) instanceof Animal)) { return false; } // position update is only for animals!
         if (!(this.canMoveTo(next))) { return false; } // if next is taken, don't move there
 
-        IMapElement mapObject = this.map.get(prev);
+        IMapElement mapObject = (IMapElement)this.objectAt(prev);
         this.map.remove(prev);
         this.map.put(next, mapObject);
         return true;

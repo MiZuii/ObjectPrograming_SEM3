@@ -3,8 +3,8 @@ import java.util.HashMap;
 
 public class RectangularMap extends AbstractWorldMap {
 
-    private int height;     // height of the map (max index = height-1)
-    private int width;      // width of the map (max index = width-1)
+    final int height;     // height of the map (max index = height-1)
+    final int width;      // width of the map (max index = width-1)
 
     public RectangularMap(int width, int height){
         this.width = width;

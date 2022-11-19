@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RectangularMapTest {
 
-    IWorldMap map;
+    RectangularMap map;
     int map_width;
     int map_height;
     boolean[] animal_places;
@@ -115,6 +115,17 @@ class RectangularMapTest {
 
     @Test
     void toStringComponents() {
+        // initial test
+        assertArrayEquals(new Vector2d[]{new Vector2d(0, 0), new Vector2d(4, 4)}, this.map.toStringComponents());
 
+        // test preparation
+        Vector2d[] mapVectorSize = new Vector2d[]{new Vector2d(1, 1), new Vector2d(2, 3), new Vector2d(4, 8), new Vector2d(27, 2)};
+        int[][] mapSize = new int[][]{{2, 2}, {3, 4}, {5, 9}, {28, 3}};
+
+        // tests
+        for(int i=0; i<mapVectorSize.length; i++) {
+            RectangularMap tmp = new RectangularMap(mapSize[i][0], mapSize[i][1]);
+            assertArrayEquals(new Vector2d[]{new Vector2d(0, 0), mapVectorSize[i]}, tmp.toStringComponents());
+        }
     }
 }

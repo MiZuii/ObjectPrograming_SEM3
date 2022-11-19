@@ -6,9 +6,9 @@ import java.util.Random;
 
 public class GrassField extends AbstractWorldMap {
 
-    private int n; // number of grass
+    final int n; // number of grass
     final int mapLength; // grass x,y is in range <0,mapLength>
-    private Random randomizer;
+    final Random randomizer;
 
     public GrassField(int numOfGrass) {
         this.n = numOfGrass;
@@ -34,7 +34,26 @@ public class GrassField extends AbstractWorldMap {
         Integer overflow doesn't need to be checked here
         because 'Vector2d' 'add' methode prevents it.
          */
-        return !this.isOccupied(position);
+        Object tmp = this.objectAt(position);
+        if(tmp == null) { return true; }
+        return (tmp instanceof Grass);
+    }
+
+    @Override
+    public boolean positionUpdate(Vector2d prev, Vector2d next) {
+        if (!(this.objectAt(prev) instanceof Animal)) { return false; } // position update is only for animals!
+        if (!(this.canMoveTo(next))) { return false; } // if next is taken, don't move there
+
+        IMapElement mapObject = (IMapElement)this.objectAt(prev);
+        this.map.remove(prev);
+
+        // if gras found at the targeted position, relocate it
+        if(this.objectAt(next) instanceof Grass) {
+            this.relocate(next);
+        }
+
+        this.map.put(next, mapObject);
+        return true;
     }
 
     @Override
@@ -77,11 +96,12 @@ public class GrassField extends AbstractWorldMap {
         return new Vector2d[]{lowerLeft, upperRight};
     }
 
-    public void relocate(Vector2d position) {
+    private void relocate(Vector2d position) {
         while (true) {
-            IMapElement newItem = new Grass(new Vector2d(randomizer.nextInt(mapLength), randomizer.nextInt(mapLength)));
-            if(this.positionUpdate(position, newItem.getPosition())) {
-                // if item is possible to place, do it and return
+            Vector2d newPosition = new Vector2d(randomizer.nextInt(mapLength), randomizer.nextInt(mapLength));
+            if(!(this.isOccupied(newPosition))) {
+                this.map.remove(position);
+                this.map.put(newPosition, new Grass(newPosition));
                 return;
             }
         }
