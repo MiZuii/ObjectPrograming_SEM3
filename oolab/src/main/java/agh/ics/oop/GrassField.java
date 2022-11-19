@@ -77,35 +77,6 @@ public class GrassField extends AbstractWorldMap {
         return new Vector2d[]{lowerLeft, upperRight};
     }
 
-    @Override
-    public String toString(){
-        MapVisualizer graphics = new MapVisualizer(this);
-
-        Vector2d lowerLeft;
-        Vector2d upperRight;
-
-        // generate iterator with this.map key values
-        Iterator<Vector2d> mapKeys = this.map.keySet().iterator();
-
-        // set initial lower and upper vectors
-        if (mapKeys.hasNext()) {
-            lowerLeft = mapKeys.next();
-            upperRight = lowerLeft;
-        }
-        else {
-            return "";
-        }
-
-        while (mapKeys.hasNext()) {
-            Vector2d vec = mapKeys.next();
-
-            lowerLeft = lowerLeft.lowerLeft(vec);
-            upperRight = upperRight.upperRight(vec);
-        }
-
-        return graphics.draw(lowerLeft, upperRight);
-    }
-
     public void relocate(Vector2d position) {
         while (true) {
             IMapElement newItem = new Grass(new Vector2d(randomizer.nextInt(mapLength), randomizer.nextInt(mapLength)));
