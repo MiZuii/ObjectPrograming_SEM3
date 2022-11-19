@@ -1,11 +1,10 @@
 package agh.ics.oop;
 import java.util.HashMap;
 
-public class RectangularMap implements IWorldMap{
+public class RectangularMap extends AbstractWorldMap {
 
     private int height;     // height of the map (max index = height-1)
     private int width;      // width of the map (max index = width-1)
-    private HashMap<Vector2d, IMapElement> map;   // hashmap
 
     public RectangularMap(int width, int height){
         this.width = width;
@@ -21,37 +20,18 @@ public class RectangularMap implements IWorldMap{
     }
 
     @Override
-    public boolean place(Animal animal) {
-        if (isOccupied(animal.getPosition())) {
+    public boolean place(IMapElement mapElement) {
+        if (isOccupied(mapElement.getPosition())) {
             return false;
         }
         else {
-            this.map.put(animal.getPosition(), animal);
+            this.map.put(mapElement.getPosition(), mapElement);
             return true;
         }
     }
 
     @Override
-    public boolean isOccupied(Vector2d position) { return this.map.get(position) != null; }
-
-    @Override
-    public Object objectAt(Vector2d position) {
-        return this.map.get(position);
-    }
-
-    @Override
-    public String toString(){
-        MapVisualizer graphics = new MapVisualizer(this);
-        return graphics.draw(new Vector2d(0,0), new Vector2d(this.width -1, this.height -1));
-    }
-
-    @Override
-    public boolean positionUpdate(Vector2d prev, Vector2d next){
-        if (!(this.map.containsKey(prev))) { return false; } // there is no Object on key 'prev' -> invali function call or error in code
-
-        IMapElement mapObject = this.map.get(prev);
-        this.map.remove(prev);
-        this.map.put(next, mapObject);
-        return true;
+    protected Vector2d[] toStringComponents() {
+        return new Vector2d[]{new Vector2d(0, 0), new Vector2d(this.width - 1, this.height - 1)};
     }
 }

@@ -22,7 +22,6 @@ public class SimulationEngine implements IEngine{
                 animalOrder[i] = new_anim;
             }
         }
-        System.out.println(animalOrder);
     }
 
     @Override
@@ -63,7 +62,7 @@ public class SimulationEngine implements IEngine{
         frame.setTitle("Little Animols");
         frame.pack();
         frame.setSize(240, 290);
-        frame.setMinimumSize(new Dimension(240, 290));
+        frame.setMinimumSize(new Dimension(400, 600));
         frame.setVisible(true);
 
         // printout initial state of the map

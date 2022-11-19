@@ -47,10 +47,9 @@ public class Animal implements IMapElement{
                 this.position = this.position.add(this.orientation.toUnitVector().oposite());
             }
         }
-        if (!this.map.canMoveTo(this.position)) {
+        if (!this.map.positionUpdate(before_vec, this.position)) {
             this.position = before_vec;
             return;
         }
-        this.map.positionUpdate(before_vec, this.position);
     }
 }

@@ -20,11 +20,11 @@ public interface IWorldMap {
     /**
      * Place a animal on the map.
      *
-     * @param animal
+     * @param mapElement
      *            The animal to place on the map.
      * @return True if the animal was placed. The animal cannot be placed if the map is already occupied.
      */
-    boolean place(Animal animal);
+    boolean place(IMapElement mapElement);
 
     /**
      * Return true if given position on the map is occupied. Should not be

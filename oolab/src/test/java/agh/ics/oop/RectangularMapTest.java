@@ -67,4 +67,14 @@ class RectangularMapTest {
             assertEquals(animal_places[i], map.isOccupied(new Vector2d(i%map_width, i/map_height)));
         }
     }
+
+    @Test
+    void positionUpdate() {
+
+    }
+
+    @Test
+    void toStringComponents() {
+
+    }
 }
