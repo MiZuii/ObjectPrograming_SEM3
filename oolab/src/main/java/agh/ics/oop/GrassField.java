@@ -1,5 +1,6 @@
 package agh.ics.oop;
 import java.lang.Math;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
@@ -97,13 +98,26 @@ public class GrassField extends AbstractWorldMap {
     }
 
     private void relocate(Vector2d position) {
-        while (true) {
-            Vector2d newPosition = new Vector2d(randomizer.nextInt(mapLength), randomizer.nextInt(mapLength));
-            if(!(this.isOccupied(newPosition))) {
-                this.map.remove(position);
-                this.map.put(newPosition, new Grass(newPosition));
-                return;
+        ArrayList<Vector2d> emptyPositions = new ArrayList<>();
+
+        // gather all possible empty positions
+        for(int row=0; row<mapLength; row++) {
+            for(int column=0; column<mapLength; column++) {
+                if(!(this.isOccupied(new Vector2d(column, row)))) {
+                    emptyPositions.add(new Vector2d(column, row));
+                }
             }
         }
+        // if there are no more empty positions
+        // just delete the Grass on initial position
+        if(emptyPositions.size() == 0) {
+            this.map.remove(position);
+            return;
+        }
+
+        // choose one empty position randomly
+        Vector2d newPosition = emptyPositions.get(randomizer.nextInt(emptyPositions.size()));
+        this.map.remove(position);
+        this.map.put(newPosition, new Grass(newPosition));
     }
 }
