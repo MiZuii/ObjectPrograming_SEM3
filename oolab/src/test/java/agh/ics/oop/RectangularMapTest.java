@@ -87,33 +87,6 @@ class RectangularMapTest {
     }
 
     @Test
-    void positionUpdate() {
-        for(Vector2d position : emptyPositions) {
-            assertFalse(this.map.positionUpdate(position, new Vector2d(-1, -1)));
-        }
-        for(int i=0; i<fullPositions.length -1; i++) {
-            assertFalse(this.map.positionUpdate(fullPositions[i], fullPositions[i+1]));
-        }
-
-        // check moves above borders
-        assertFalse(this.map.positionUpdate(fullPositions[0], new Vector2d(-1, 2)));
-        assertFalse(this.map.positionUpdate(fullPositions[0], new Vector2d(-1, -3)));
-        assertFalse(this.map.positionUpdate(fullPositions[0], new Vector2d(5, 2)));
-        assertFalse(this.map.positionUpdate(fullPositions[0], new Vector2d(0, 7)));
-
-        // sequence of possible moves
-        assertTrue(this.map.positionUpdate(new Vector2d(0, 0), new Vector2d(1, 2)));
-        assertTrue(this.map.positionUpdate(new Vector2d(3, 2), new Vector2d(0, 0)));
-        assertFalse(this.map.positionUpdate(new Vector2d(0, 0), new Vector2d(1, 2)));
-        assertTrue(this.map.positionUpdate(new Vector2d(1, 4), new Vector2d(3, 2)));
-        assertTrue(this.map.positionUpdate(new Vector2d(1, 0), new Vector2d(1, 4)));
-        assertTrue(this.map.positionUpdate(new Vector2d(1, 4), new Vector2d(4, 0)));
-        assertTrue(this.map.positionUpdate(new Vector2d(3, 2), new Vector2d(1, 4)));
-        assertFalse(this.map.positionUpdate(new Vector2d(2, 1), new Vector2d(4, 0)));
-        assertFalse(this.map.positionUpdate(new Vector2d(2, 1), new Vector2d(1, 4)));
-    }
-
-    @Test
     void toStringComponents() {
         // initial test
         assertArrayEquals(new Vector2d[]{new Vector2d(0, 0), new Vector2d(4, 4)}, this.map.toStringComponents());

@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 import java.util.HashMap;
 
-abstract class AbstractWorldMap implements IWorldMap{
+abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     protected HashMap<Vector2d, IMapElement> map;
 
     @Override
@@ -16,8 +16,8 @@ abstract class AbstractWorldMap implements IWorldMap{
     }
 
     @Override
-    public boolean positionUpdate(Vector2d prev, Vector2d next) {
-        if (!(this.objectAt(prev) instanceof Animal)) { return false; } // position update is only for animals!
+    public boolean positionChanged(Vector2d prev, Vector2d next) {
+        if (!(this.objectAt(prev) instanceof Animal)) { return false; } // position change is only for animals! (grass uses relocate)
         if (!(this.canMoveTo(next))) { return false; } // if next is taken, don't move there
 
         IMapElement mapObject = (IMapElement)this.objectAt(prev);

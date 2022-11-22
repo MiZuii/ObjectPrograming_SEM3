@@ -20,14 +20,13 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    public boolean place(IMapElement mapElement) {
-        if (isOccupied(mapElement.getPosition())) {
+    public boolean place(IMapElement newElement) {
+        if (isOccupied(newElement.getPosition())) {
             return false;
         }
-        else {
-            this.map.put(mapElement.getPosition(), mapElement);
-            return true;
-        }
+        this.map.put(newElement.getPosition(), newElement);
+        ((Animal) newElement).addObserver(this);
+        return true;
     }
 
     @Override

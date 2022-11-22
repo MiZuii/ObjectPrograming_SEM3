@@ -153,53 +153,6 @@ class GrassFieldTest {
     }
 
     @Test
-    void positionUpdate() {
-        Vector2d animalPosition = animalPositions[0];
-        Vector2d prevPosition;
-        Vector2d startingPosition = animalPosition;
-
-        // position update should not move onto another animal
-        for(Vector2d position : animalPositions) {
-            assertFalse(this.map.positionUpdate(animalPosition, position));
-        }
-        assertEquals(startingPosition, animalPosition);
-
-        // place the first animal on every grass position
-        for(Vector2d position : grassPositions) {
-            // make a position update
-            prevPosition = animalPosition;
-            assertTrue(this.map.positionUpdate(animalPosition, position));
-            animalPosition = position;
-
-            // check if positions got updated
-            assertNull(this.map.objectAt(prevPosition));
-            assertTrue(this.map.objectAt(animalPosition) instanceof Animal);
-            assertEquals(n, countGrass()); // checks if every grass got put back onto map
-        }
-        map.positionUpdate(animalPosition, startingPosition); // returns the animal to its original position
-        animalPosition = startingPosition;
-
-        // place the first animal on every empty position
-        // !! There can be grass fields on empty positions at this point
-        for(Vector2d position : emptyPositions) {
-            // make a position update
-            prevPosition = animalPosition;
-            assertTrue(this.map.positionUpdate(animalPosition, position));
-            animalPosition = position;
-
-            // check if positions got updated
-            assertNull(this.map.objectAt(prevPosition));
-            assertTrue(this.map.objectAt(animalPosition) instanceof Animal);
-        }
-
-        // check additional positions outside of range <0, mapLength>
-        assertTrue(this.map.positionUpdate(animalPosition, new Vector2d(mapLength+23, mapLength+12)));
-        assertTrue(this.map.positionUpdate(new Vector2d(mapLength+23, mapLength+12), new Vector2d(-14, -349)));
-        assertTrue(this.map.positionUpdate(new Vector2d(-14, -349), new Vector2d(mapLength/2, -59)));
-        assertTrue(this.map.positionUpdate(new Vector2d(mapLength/2, -59), new Vector2d(-1, mapLength/4)));
-    }
-
-    @Test
     void toStringComponents() {
         // setup custom map
         GrassField customMap = new GrassField(1);

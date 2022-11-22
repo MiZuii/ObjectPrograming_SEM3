@@ -1,17 +1,24 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Animal implements IMapElement{
     private Vector2d position = new Vector2d(2,2);
     private MapDirection orientation = MapDirection.NORTH;
     private IWorldMap map;
+    private ArrayList<IPositionChangeObserver> observers;
 
     public Animal(IWorldMap map) {
         this.map = map;
+        this.observers = new ArrayList<>();
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
         this.position = initialPosition;
+        this.observers = new ArrayList<>();
     }
 
     @Override
@@ -23,6 +30,30 @@ public class Animal implements IMapElement{
             case WEST -> "W";
             default -> "X";
         };
+    }
+
+    public void addObserver(IPositionChangeObserver newObserver) {
+        this.observers.add(newObserver);
+    }
+
+    public void removeObserver(IPositionChangeObserver observerToRemove) {
+        this.observers.remove(observerToRemove);
+    }
+
+    private boolean positionChanged(Vector2d prev, Vector2d next) {
+        // this is only needed if we place one animal on multiple arrays -> multidimentional stuf c:
+        boolean[] returnedVals = new boolean[observers.size()];
+        int rvIter = 0;
+        // -------------
+
+        for(IPositionChangeObserver observer : observers) {
+            returnedVals[rvIter++] = observer.positionChanged(prev, next);
+        }
+
+        for(boolean rv : returnedVals) {
+            if(!rv) { return false; }
+        }
+        return true;
     }
 
     public boolean isAt(Vector2d position){
@@ -47,9 +78,8 @@ public class Animal implements IMapElement{
                 this.position = this.position.add(this.orientation.toUnitVector().oposite());
             }
         }
-        if (!this.map.positionUpdate(before_vec, this.position)) {
+        if (!this.positionChanged(before_vec, this.position)) {
             this.position = before_vec;
-            return;
         }
     }
 }

@@ -45,15 +45,4 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
-
-    /**
-     * Update elements in map at given vectors
-     *
-     * @param prevPosition
-     *            Previous position of the object.
-     * @param nextPosition
-     *            Desired position of the object.
-     * @return True if was completed. False if something failed.
-     */
-    boolean positionUpdate(Vector2d prevPosition, Vector2d nextPosition);
 }

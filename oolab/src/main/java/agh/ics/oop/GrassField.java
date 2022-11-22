@@ -41,7 +41,7 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public boolean positionUpdate(Vector2d prev, Vector2d next) {
+    public boolean positionChanged(Vector2d prev, Vector2d next) {
         if (!(this.objectAt(prev) instanceof Animal)) { return false; } // position update is only for animals!
         if (!(this.canMoveTo(next))) { return false; } // if next is taken, don't move there
 
@@ -67,6 +67,11 @@ public class GrassField extends AbstractWorldMap {
             this.relocate(tmpElement.getPosition());
         }
         this.map.put(newElement.getPosition(), newElement);
+
+        // add observer if its animal
+        if(newElement instanceof Animal animalElement) {
+            animalElement.addObserver(this);
+        }
         return true;
     }
 
