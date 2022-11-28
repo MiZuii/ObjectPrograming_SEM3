@@ -56,28 +56,21 @@ class GrassFieldTest {
     }
 
     @Test
-    void canMoveTo() {
-        // all animal places are unable to be moved to
+    void isOccupied() {
+        // check all animal places
         for(Vector2d position : animalPositions) {
-            assertFalse(map.canMoveTo(position));
+            assertTrue(map.isOccupied(position));
         }
 
-        // all grass places should be possible to be moved to
+        // check all grass places
         for(Vector2d position : grassPositions) {
-            assertTrue(map.canMoveTo(position));
+            assertTrue(map.isOccupied(position));
         }
 
-        // all empty places should be possible to be moved to
+        // check all empty places
         for(Vector2d position : emptyPositions) {
-            assertTrue(map.canMoveTo(position));
+            assertFalse(map.isOccupied(position));
         }
-
-        // special positions that are not in <0, mapLength> should also be possible to be moved to
-        assertTrue(map.canMoveTo(new Vector2d(-3, 2)));
-        assertTrue(map.canMoveTo(new Vector2d(-3, -34)));
-        assertTrue(map.canMoveTo(new Vector2d(0, -7)));
-        assertTrue(map.canMoveTo(new Vector2d(mapLength+23, 2)));
-        assertTrue(map.canMoveTo(new Vector2d(4, mapLength+34)));
     }
 
     @Test
@@ -99,57 +92,8 @@ class GrassFieldTest {
     }
 
     @Test
-    void place() {
-        // check if animals can't be placed on other animals
-        for(Vector2d position : animalPositions) {
-            assertFalse(map.place(new Animal(map, position)));
-        }
+    void positionChanged() {
 
-        // place an animal on every empty position
-        for(Vector2d position : emptyPositions) {
-            Animal tmp = new Animal(map, position);
-            assertTrue(map.place(tmp));
-            assertEquals(tmp, map.objectAt(position));
-        }
-
-        // place an animal on every grass position
-        for(Vector2d position : grassPositions) {
-            Animal tmp = new Animal(map, position);
-            assertTrue(map.place(tmp));
-            assertEquals(tmp, map.objectAt(position));
-        }
-    }
-
-    @Test
-    void isOccupied() {
-        // check all animal places
-        for(Vector2d position : animalPositions) {
-            assertTrue(map.isOccupied(position));
-        }
-
-        // check all grass places
-        for(Vector2d position : grassPositions) {
-            assertTrue(map.isOccupied(position));
-        }
-
-        // check all empty places
-        for(Vector2d position : emptyPositions) {
-            assertFalse(map.isOccupied(position));
-        }
-    }
-
-    private int countGrass() {
-        // counts all gras on the current map
-        int counter = 0;
-
-        for(int row=0; row<mapLength; row++) {
-            for (int column=0; column<mapLength; column++) {
-                if(map.objectAt(new Vector2d(column, row)) instanceof Grass) {
-                    counter++;
-                }
-            }
-        }
-        return counter;
     }
 
     @Test
@@ -208,5 +152,66 @@ class GrassFieldTest {
 
             assertArrayEquals(new Vector2d[]{lowerLeft, upperRight}, customMap.toStringComponents());
         }
+    }
+
+    @Test
+    void canMoveTo() {
+        // all animal places are unable to be moved to
+        for(Vector2d position : animalPositions) {
+            assertFalse(map.canMoveTo(position));
+        }
+
+        // all grass places should be possible to be moved to
+        for(Vector2d position : grassPositions) {
+            assertTrue(map.canMoveTo(position));
+        }
+
+        // all empty places should be possible to be moved to
+        for(Vector2d position : emptyPositions) {
+            assertTrue(map.canMoveTo(position));
+        }
+
+        // special positions that are not in <0, mapLength> should also be possible to be moved to
+        assertTrue(map.canMoveTo(new Vector2d(-3, 2)));
+        assertTrue(map.canMoveTo(new Vector2d(-3, -34)));
+        assertTrue(map.canMoveTo(new Vector2d(0, -7)));
+        assertTrue(map.canMoveTo(new Vector2d(mapLength+23, 2)));
+        assertTrue(map.canMoveTo(new Vector2d(4, mapLength+34)));
+    }
+
+    @Test
+    void place() {
+        // check if animals can't be placed on other animals
+        for(Vector2d position : animalPositions) {
+            assertFalse(map.place(new Animal(map, position)));
+        }
+
+        // place an animal on every empty position
+        for(Vector2d position : emptyPositions) {
+            Animal tmp = new Animal(map, position);
+            assertTrue(map.place(tmp));
+            assertEquals(tmp, map.objectAt(position));
+        }
+
+        // place an animal on every grass position
+        for(Vector2d position : grassPositions) {
+            Animal tmp = new Animal(map, position);
+            assertTrue(map.place(tmp));
+            assertEquals(tmp, map.objectAt(position));
+        }
+    }
+
+    private int countGrass() {
+        // counts all gras on the current map
+        int counter = 0;
+
+        for(int row=0; row<mapLength; row++) {
+            for (int column=0; column<mapLength; column++) {
+                if(map.objectAt(new Vector2d(column, row)) instanceof Grass) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
     }
 }

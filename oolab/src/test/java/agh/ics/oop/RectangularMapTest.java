@@ -50,9 +50,9 @@ class RectangularMapTest {
     }
 
     @Test
-    void canMoveTo() {
+    void isOccupied() {
         for (int i=0; i<map_height*map_width; i++) {
-            assertEquals(!animal_places[i], map.canMoveTo(new Vector2d(i%map_width, i/map_height)));
+            assertEquals(animal_places[i], map.isOccupied(new Vector2d(i%map_width, i/map_height)));
         }
     }
 
@@ -69,24 +69,6 @@ class RectangularMapTest {
     }
 
     @Test
-    void place() {
-        for (int i=0; i<map_height*map_width; i++) {
-            Animal tmp = new Animal(map, new Vector2d(i % map_width, i / map_height));
-            assertEquals(!animal_places[i], map.place(tmp));
-            if (!animal_places[i]) {
-                assertEquals(map.objectAt(new Vector2d(i % map_width, i / map_height)), tmp);
-            }
-        }
-    }
-
-    @Test
-    void isOccupied() {
-        for (int i=0; i<map_height*map_width; i++) {
-            assertEquals(animal_places[i], map.isOccupied(new Vector2d(i%map_width, i/map_height)));
-        }
-    }
-
-    @Test
     void toStringComponents() {
         // initial test
         assertArrayEquals(new Vector2d[]{new Vector2d(0, 0), new Vector2d(4, 4)}, this.map.toStringComponents());
@@ -99,6 +81,29 @@ class RectangularMapTest {
         for(int i=0; i<mapVectorSize.length; i++) {
             RectangularMap tmp = new RectangularMap(mapSize[i][0], mapSize[i][1]);
             assertArrayEquals(new Vector2d[]{new Vector2d(0, 0), mapVectorSize[i]}, tmp.toStringComponents());
+        }
+    }
+
+    @Test
+    void positionChanged() {
+
+    }
+
+    @Test
+    void canMoveTo() {
+        for (int i=0; i<map_height*map_width; i++) {
+            assertEquals(!animal_places[i], map.canMoveTo(new Vector2d(i%map_width, i/map_height)));
+        }
+    }
+
+    @Test
+    void place() {
+        for (int i=0; i<map_height*map_width; i++) {
+            Animal tmp = new Animal(map, new Vector2d(i % map_width, i / map_height));
+            assertEquals(!animal_places[i], map.place(tmp));
+            if (!animal_places[i]) {
+                assertEquals(map.objectAt(new Vector2d(i % map_width, i / map_height)), tmp);
+            }
         }
     }
 }

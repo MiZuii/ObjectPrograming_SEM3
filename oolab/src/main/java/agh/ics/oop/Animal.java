@@ -4,21 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Animal implements IMapElement{
+public class Animal implements IMapElement, IPositionChangeObserverHolder{
     private Vector2d position = new Vector2d(2,2);
     private MapDirection orientation = MapDirection.NORTH;
     private IWorldMap map;
-    private ArrayList<IPositionChangeObserver> observers;
+    private IPositionChangeObserver observer;
 
     public Animal(IWorldMap map) {
         this.map = map;
-        this.observers = new ArrayList<>();
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
         this.position = initialPosition;
-        this.observers = new ArrayList<>();
     }
 
     @Override
@@ -32,28 +30,19 @@ public class Animal implements IMapElement{
         };
     }
 
+    @Override
     public void addObserver(IPositionChangeObserver newObserver) {
-        this.observers.add(newObserver);
+        this.observer = newObserver;
     }
 
-    public void removeObserver(IPositionChangeObserver observerToRemove) {
-        this.observers.remove(observerToRemove);
+    @Override
+    public void removeObserver() {
+        this.observer = null;
     }
 
     private boolean positionChanged(Vector2d prev, Vector2d next) {
-        // this is only needed if we place one animal on multiple arrays -> multidimentional stuf c:
-        boolean[] returnedVals = new boolean[observers.size()];
-        int rvIter = 0;
-        // -------------
-
-        for(IPositionChangeObserver observer : observers) {
-            returnedVals[rvIter++] = observer.positionChanged(prev, next);
-        }
-
-        for(boolean rv : returnedVals) {
-            if(!rv) { return false; }
-        }
-        return true;
+        if(observer == null) {return false;}
+        return observer.positionChanged(prev, next);
     }
 
     public boolean isAt(Vector2d position){
