@@ -10,12 +10,14 @@ public class GrassField extends AbstractWorldMap {
     final int n; // number of grass
     final int mapLength; // grass x,y is in range <0,mapLength>
     final Random randomizer;
+    final MapBoundary mapBoundary;
 
     public GrassField(int numOfGrass) {
         this.n = numOfGrass;
         this.mapLength = (int)Math.sqrt(10*n);
         this.map = new HashMap<>();
         this.randomizer = new Random();
+        this.mapBoundary = new MapBoundary();
 
         // placeing grass
         int i=0;
@@ -41,10 +43,7 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public boolean positionChanged(Vector2d prev, Vector2d next) {
-        if (!(this.objectAt(prev) instanceof Animal)) { return false; } // position update is only for animals!
-        if (!(this.canMoveTo(next))) { return false; } // if next is taken, don't move there
-
+    public void positionChanged(Vector2d prev, Vector2d next) {
         IMapElement mapObject = (IMapElement)this.objectAt(prev);
         this.map.remove(prev);
 
@@ -54,7 +53,6 @@ public class GrassField extends AbstractWorldMap {
         }
 
         this.map.put(next, mapObject);
-        return true;
     }
 
     @Override

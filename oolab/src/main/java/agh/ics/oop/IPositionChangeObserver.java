@@ -8,7 +8,6 @@ public interface IPositionChangeObserver {
      *            Previous position of the object.
      * @param nextPosition
      *            Desired position of the object.
-     * @return True if was completed. False if something failed.
      */
-    boolean positionChanged(Vector2d prevPosition, Vector2d nextPosition);
+    void positionChanged(Vector2d prevPosition, Vector2d nextPosition);
 }

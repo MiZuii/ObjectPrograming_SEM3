@@ -13,7 +13,7 @@ public class OptionsParser {
                 case "b", "backward" -> ans.add(MoveDirection.BACKWARD);
                 case "r", "right" -> ans.add(MoveDirection.RIGHT);
                 case "l", "left" -> ans.add(MoveDirection.LEFT);
-                default -> {continue;}
+                default -> throw new IllegalArgumentException(s + " is not legal move specification");
             }
         }
         // Vector to array

@@ -13,6 +13,9 @@ public interface IPositionChangeObserverHolder {
     /**
      * Removes an IPositionChangeObserver from
      * this object
+     *
+     * @param observerToRemove
+     *          Obeserver to remove
      */
-    void removeObserver();
+    void removeObserver(IPositionChangeObserver observerToRemove);
 }

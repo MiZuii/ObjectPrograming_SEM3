@@ -21,6 +21,9 @@ public class SimulationEngine implements IEngine{
             if (map.place(new_anim)) {
                 animalOrder[i] = new_anim;
             }
+            else {
+                throw new IllegalArgumentException(positions[i] + " is not legal place for animal");
+            }
         }
     }
 

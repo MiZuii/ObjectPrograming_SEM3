@@ -16,14 +16,10 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     }
 
     @Override
-    public boolean positionChanged(Vector2d prev, Vector2d next) {
-        if (!(this.objectAt(prev) instanceof Animal)) { return false; } // position change is only for animals! (grass uses relocate)
-        if (!(this.canMoveTo(next))) { return false; } // if next is taken, don't move there
-
+    public void positionChanged(Vector2d prev, Vector2d next) {
         IMapElement mapObject = (IMapElement)this.objectAt(prev);
         this.map.remove(prev);
         this.map.put(next, mapObject);
-        return true;
     }
 
     protected abstract Vector2d[] toStringComponents();

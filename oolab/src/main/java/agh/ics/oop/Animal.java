@@ -7,16 +7,18 @@ import java.util.List;
 public class Animal implements IMapElement, IPositionChangeObserverHolder{
     private Vector2d position = new Vector2d(2,2);
     private MapDirection orientation = MapDirection.NORTH;
-    private IWorldMap map;
-    private IPositionChangeObserver observer;
+    private final IWorldMap map;
+    private final ArrayList<IPositionChangeObserver> observers;
 
     public Animal(IWorldMap map) {
         this.map = map;
+        observers = new ArrayList<>();
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
         this.position = initialPosition;
+        observers = new ArrayList<>();
     }
 
     @Override
@@ -32,17 +34,18 @@ public class Animal implements IMapElement, IPositionChangeObserverHolder{
 
     @Override
     public void addObserver(IPositionChangeObserver newObserver) {
-        this.observer = newObserver;
+        this.observers.add(newObserver);
     }
 
     @Override
-    public void removeObserver() {
-        this.observer = null;
+    public void removeObserver(IPositionChangeObserver observerToRemove) {
+        this.observers.remove(observerToRemove);
     }
 
-    private boolean positionChanged(Vector2d prev, Vector2d next) {
-        if(observer == null) {return false;}
-        return observer.positionChanged(prev, next);
+    private void positionChanged(Vector2d prev, Vector2d next) {
+        for(IPositionChangeObserver observer : observers) {
+            observer.positionChanged(prev, next);
+        }
     }
 
     public boolean isAt(Vector2d position){
@@ -67,8 +70,10 @@ public class Animal implements IMapElement, IPositionChangeObserverHolder{
                 this.position = this.position.add(this.orientation.toUnitVector().oposite());
             }
         }
-        if (!this.positionChanged(before_vec, this.position)) {
+        if (!map.canMoveTo(this.position)) {
             this.position = before_vec;
+            return;
         }
+        this.positionChanged(before_vec, this.position);
     }
 }

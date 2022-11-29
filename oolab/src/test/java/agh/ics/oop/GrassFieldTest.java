@@ -111,7 +111,6 @@ class GrassFieldTest {
             animalPosition = position;
 
             // check if positions got updated
-            assertNull(this.map.objectAt(prevPosition));
             assertTrue(this.map.objectAt(animalPosition) instanceof Animal);
             assertEquals(n, countGrass()); // checks if every grass got put back onto map
         }
