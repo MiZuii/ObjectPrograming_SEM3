@@ -26,6 +26,7 @@ public class RectangularMap extends AbstractWorldMap {
         }
         this.map.put(newElement.getPosition(), newElement);
         ((Animal) newElement).addObserver(this);
+        ((Animal) newElement).addObserver(appObserver);
         return true;
     }
 

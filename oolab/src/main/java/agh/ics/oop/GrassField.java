@@ -25,6 +25,7 @@ public class GrassField extends AbstractWorldMap {
             IMapElement newItem = new Grass(new Vector2d(randomizer.nextInt(mapLength), randomizer.nextInt(mapLength)));
             if(this.place(newItem)) {
                 // if item is possible to place, do it and generate next
+                mapBoundary.addElement(newItem.getPosition());
                 i++;
             }
         }
@@ -69,35 +70,16 @@ public class GrassField extends AbstractWorldMap {
         // add observer if its animal
         if(newElement instanceof Animal animalElement) {
             animalElement.addObserver(this);
+            animalElement.addObserver(this.mapBoundary);
+            animalElement.addObserver(appObserver);
+            mapBoundary.addElement(newElement.getPosition());
         }
         return true;
     }
 
     @Override
     protected Vector2d[] toStringComponents() {
-        Vector2d lowerLeft;
-        Vector2d upperRight;
-
-        // generate iterator with this.map key values
-        Iterator<Vector2d> mapKeys = this.map.keySet().iterator();
-
-        // set initial lower and upper vectors
-        if (mapKeys.hasNext()) {
-            lowerLeft = mapKeys.next();
-            upperRight = lowerLeft;
-        }
-        else {
-            return new Vector2d[]{new Vector2d(0, 0), new Vector2d(0, 0)};
-        }
-
-        while (mapKeys.hasNext()) {
-            Vector2d vec = mapKeys.next();
-
-            lowerLeft = lowerLeft.lowerLeft(vec);
-            upperRight = upperRight.upperRight(vec);
-        }
-
-        return new Vector2d[]{lowerLeft, upperRight};
+        return mapBoundary.getDimentions();
     }
 
     private void relocate(Vector2d position) {
@@ -120,6 +102,7 @@ public class GrassField extends AbstractWorldMap {
 
         // choose one empty position randomly
         Vector2d newPosition = emptyPositions.get(randomizer.nextInt(emptyPositions.size()));
+        mapBoundary.positionChanged(position, newPosition);
         this.map.remove(position);
         this.map.put(newPosition, new Grass(newPosition));
     }

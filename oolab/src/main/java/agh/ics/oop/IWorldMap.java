@@ -45,4 +45,12 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
+
+    /**
+     * Adds app observer instance for tracking moves and displaying them
+     *
+     * @param appObserver
+     *          IPositionChangeObserver instance of App
+     */
+    public void setAppObserver(IPositionChangeObserver appObserver);
 }
