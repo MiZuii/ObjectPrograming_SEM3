@@ -5,7 +5,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.stage.*;
 
 public class App extends Application implements IPositionChangeObserver{
@@ -58,9 +58,33 @@ public class App extends Application implements IPositionChangeObserver{
         return new Runnable(){
             @Override public void run() {
                 // Generateing new scene
-                Label labelx = new Label("X");
-                Scene scene = new Scene(labelx, 400, 400);
+                //initials
+
+                // setting grid
+                GridPane grid = new GridPane();
+                grid.setGridLinesVisible(true);
+
+                // creating display container
+                HBox display = new HBox();
+                display.getChildren().add(grid);
+
+                // creating info panel insides
+                Button animStart = new Button("Start");
+                TextField input = new TextField();
+
+                // creating info panel
+                HBox controls = new HBox();
+                controls.getChildren().addAll(animStart, input);
+
+                // setting main vbox
+                VBox root = new VBox();
+                root.getChildren().addAll(controls, display);
+//                root.prefWidthProperty().bind(scene.widthProperty());
+//                root.prefHeightProperty().bind(scene.heightProperty());
+
+                Scene scene = new Scene(root, 400, 400);
                 appStage.setScene(scene);
+
 
                 appStage.show();
                 // ---------------------
