@@ -10,7 +10,6 @@ public class GrassField extends AbstractWorldMap {
     final int n; // number of grass
     final int mapLength; // grass x,y is in range <0,mapLength>
     final Random randomizer;
-    final MapBoundary mapBoundary;
 
     public GrassField(int numOfGrass) {
         this.n = numOfGrass;
@@ -75,11 +74,6 @@ public class GrassField extends AbstractWorldMap {
             mapBoundary.addElement(newElement.getPosition());
         }
         return true;
-    }
-
-    @Override
-    protected Vector2d[] toStringComponents() {
-        return mapBoundary.getDimentions();
     }
 
     private void relocate(Vector2d position) {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     protected HashMap<Vector2d, IMapElement> map;
     protected IPositionChangeObserver appObserver;
+    public MapBoundary mapBoundary;
 
     @Override
     public boolean isOccupied(Vector2d position) {
@@ -23,12 +24,10 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         this.map.put(next, mapObject);
     }
 
-    protected abstract Vector2d[] toStringComponents();
-
     @Override
     public String toString() {
         MapVisualizer graphics = new MapVisualizer(this);
-        Vector2d[] components = toStringComponents();
+        Vector2d[] components = mapBoundary.getDimentions();
         return graphics.draw(components[0], components[1]);
     }
 

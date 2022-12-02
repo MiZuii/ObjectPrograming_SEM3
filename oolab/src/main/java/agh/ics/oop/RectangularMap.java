@@ -10,6 +10,8 @@ public class RectangularMap extends AbstractWorldMap {
         this.width = width;
         this.height = height;
         this.map = new HashMap<>();
+        mapBoundary.addElement(new Vector2d(0, 0));
+        mapBoundary.addElement(new Vector2d((this.width-1), (this.height-1)));
     }
 
     @Override
@@ -28,10 +30,5 @@ public class RectangularMap extends AbstractWorldMap {
         ((Animal) newElement).addObserver(this);
         ((Animal) newElement).addObserver(appObserver);
         return true;
-    }
-
-    @Override
-    protected Vector2d[] toStringComponents() {
-        return new Vector2d[]{new Vector2d(0, 0), new Vector2d(this.width - 1, this.height - 1)};
     }
 }

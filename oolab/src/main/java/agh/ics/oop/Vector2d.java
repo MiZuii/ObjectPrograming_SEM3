@@ -4,8 +4,8 @@ import java.util.Objects;
 import java.util.Vector;
 
 public class Vector2d {
-    final int x;
-    final int y;
+    public int x;
+    public int y;
 
     private boolean isAddOverflow(int x, int y) {
         return x > 0 ? Integer.MAX_VALUE - x < y : Integer.MIN_VALUE - x > y;
