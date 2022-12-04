@@ -1,15 +1,6 @@
-/* CSS HEX */
-/*--bone: #d4c6abff;*/
-/*--black-coral: #59636fff;*/
-/*--upsdell-red: #aa3037ff;*/
-/*--black: #000000ff;*/
-/*--dark-turquoise: #00dae0ff;*/
-
-
 .root {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #59636fff, #000000ff);
 }
-
 
 .button {
     -fx-font: bold italic 10pt "Arial";
@@ -19,7 +10,7 @@
 }
 
 .grid {
-    -fx-background-color: #d4c6abff;
+    -fx-background-color: #50c6da;
 }
 
 .grid-cell {

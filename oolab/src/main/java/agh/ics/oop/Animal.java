@@ -58,17 +58,14 @@ public class Animal implements IMapElement, IPositionChangeObserverHolder {
 
     @Override
     public Image getImage(){
-        String path = "";
-        switch (this.orientation) {
-            case NORTH -> path = "/Images/up.png";
-            case SOUTH -> path = "/Images/down.png";
-            case EAST -> path = "/Images/right.png";
-            case WEST -> path = "/Images/left.png";
-            case NO_DIRECTION -> path = "";
-        }
-
+        String path = "/Images/frog.png";
         Image image = new Image(getClass().getResourceAsStream(path));
         return image;
+    }
+
+    @Override
+    public MapDirection getDirection(){
+        return this.orientation;
     }
 
     public void move(MoveDirection direction){

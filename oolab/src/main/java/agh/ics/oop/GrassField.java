@@ -1,5 +1,8 @@
 package agh.ics.oop;
+import agh.ics.oop.gui.App;
 import agh.ics.oop.interfaces.IMapElement;
+import agh.ics.oop.interfaces.IPositionChangeObserver;
+import agh.ics.oop.interfaces.IPositionChangeObserverHolder;
 
 import java.lang.Math;
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ public class GrassField extends AbstractWorldMap {
             IMapElement newItem = new Grass(new Vector2d(randomizer.nextInt(mapLength), randomizer.nextInt(mapLength)));
             if(this.place(newItem)) {
                 // if item is possible to place, do it and generate next
-                mapBoundary.addElement(newItem.getPosition());
+                mapBoundary.addGrass(newItem.getPosition());
                 i++;
             }
         }
@@ -53,7 +56,12 @@ public class GrassField extends AbstractWorldMap {
             this.relocate(next);
         }
 
-        this.map.put(next, mapObject);
+        if (mapObject instanceof Grass) {
+            this.map.put(next, new Grass(next));
+        }
+        else {
+            this.map.put(next, mapObject);
+        }
     }
 
     @Override
@@ -97,8 +105,10 @@ public class GrassField extends AbstractWorldMap {
 
         // choose one empty position randomly
         Vector2d newPosition = emptyPositions.get(randomizer.nextInt(emptyPositions.size()));
-        mapBoundary.positionChanged(position, newPosition);
-        this.map.remove(position);
-        this.map.put(newPosition, new Grass(newPosition));
+        positionChanged(position, newPosition);
+        this.mapBoundary.positionChangedGrass(position, newPosition);
+        if (appObserver != null && ((App) appObserver).displayCreator != null) { // this may happen because the relocate is used in map init which is used while creating appObserver.displayCreator
+            this.appObserver.positionChanged(position, newPosition);
+        }
     }
 }

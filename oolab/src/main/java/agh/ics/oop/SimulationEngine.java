@@ -4,19 +4,22 @@ import agh.ics.oop.interfaces.IEngine;
 import agh.ics.oop.interfaces.IWorldMap;
 
 import java.lang.Thread;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SimulationEngine implements IEngine, Runnable{
+public class SimulationEngine extends Thread implements IEngine{
 
     private MoveDirection[] moves;
     private IWorldMap map;
     private Animal[] animalOrder;
     public int moveDelay;
+    public volatile AtomicBoolean running = new AtomicBoolean(false);
 
     public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions, int moveDelay){
         this.moves = moves;
         this.map = map;
         animalOrder = new Animal[positions.length];
         this.moveDelay = moveDelay;
+        this.running.set(false);
 
         for (int i=0; i< positions.length; i++) {
             Animal new_anim = new Animal(this.map, positions[i]);
@@ -31,9 +34,13 @@ public class SimulationEngine implements IEngine, Runnable{
 
     @Override
     public void run() {
+        running.set(true);
         for (int iter=0; iter<moves.length; iter++) {
+            if (!this.running.get()) {
+                return;
+            }
             try {
-                Thread.sleep(moveDelay);
+                sleep(moveDelay);
             }
             catch (Exception e) {
                 // catching the exception

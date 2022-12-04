@@ -17,8 +17,11 @@ public class AppGridCreator implements Runnable{
     private Vector2d upperRight = new Vector2d(0, 0);
     static final int size = 60;
 
-    public AppGridCreator(GridPane grid, IWorldMap map){
+    public AppGridCreator(GridPane grid){
         this.grid = grid;
+    }
+
+    public void setNewMap(IWorldMap map) {
         this.map = map;
     }
 
@@ -80,13 +83,22 @@ public class AppGridCreator implements Runnable{
         VBox nvbox = new VBox();
         Label ins;
 
+        // get element
+        IMapElement element = (IMapElement) this.map.objectAt(position);
+
         // create image viev
-        Image img = ((IMapElement) this.map.objectAt(position)).getImage();
+        Image img = element.getImage();
         ImageView imgView = new ImageView(img);
         imgView.setFitWidth(40);
         imgView.setFitHeight(40);
+        switch (element.getDirection()) {
+            case NORTH -> imgView.setRotate(0);
+            case EAST -> imgView.setRotate(90);
+            case SOUTH -> imgView.setRotate(180);
+            case WEST -> imgView.setRotate(270);
+        }
 
-        ins = new Label(((IMapElement) this.map.objectAt(position)).toString());
+        ins = new Label(element.toString());
 
         // set fx properties
         nvbox.setAlignment(Pos.CENTER);

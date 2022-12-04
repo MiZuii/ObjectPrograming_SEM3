@@ -20,8 +20,13 @@ public class Grass implements IMapElement {
 
     @Override
     public Image getImage(){
-        Image image = new Image(getClass().getResourceAsStream("/Images/grass.png"));
+        Image image = new Image(getClass().getResourceAsStream("/Images/lilypad.png"));
         return image;
+    }
+
+    @Override
+    public MapDirection getDirection(){
+        return MapDirection.NORTH;
     }
 
     @Override

@@ -13,23 +13,23 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
 
-import java.util.Arrays;
-
 public class App extends Application implements IPositionChangeObserver {
 
-    Thread engineThread;
+    SimulationEngine engineThread;
     Stage appStage;
-    AppGridCreator displayCreator;
+    public AppGridCreator displayCreator;
     IWorldMap map;
     String[] arguments;
     EventHandler<ActionEvent> startButtonH;
+    TextField textInput;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         // init appStage variable
         appStage = primaryStage;
-        displayCreator = new AppGridCreator(makeScene(), this.map);
+        displayCreator = new AppGridCreator(makeScene());
+        displayCreator.setNewMap(this.map);
         positionChanged(new Vector2d(0, 0), new Vector2d(0, 0)); // runs only to generate initial grid
         appStage.show();
     }
@@ -37,20 +37,16 @@ public class App extends Application implements IPositionChangeObserver {
     @Override
     public void init(){
         startButtonH = new StartButtonEventHandler(this);
-        engineThread = generateNewThread(200, 8,
-                new Vector2d[]{new Vector2d(3, 3),
-                        new Vector2d(2, 3),
-                        new Vector2d(2, 2),
-                        new Vector2d(3, 2)});
+        arguments = getParameters().getRaw().toArray(String[]::new);
+        engineThread = generateNewThread(400, 8,
+                new Vector2d[]{new Vector2d(1, 1)});
     }
 
-    public Thread generateNewThread(int moveDelay, int mapSize, Vector2d[] animalsPositions){
-        arguments = getParameters().getRaw().toArray(String[]::new);
+    public SimulationEngine generateNewThread(int moveDelay, int mapSize, Vector2d[] animalsPositions){
         MoveDirection[] directions = new OptionsParser().parse(arguments);
-        map = new GrassField(mapSize);
-        map.setAppObserver(this);
-        SimulationEngine engine = new SimulationEngine(directions, map, animalsPositions, moveDelay);
-        return new Thread(engine);
+        this.map = new GrassField(mapSize);
+        this.map.setAppObserver(this);
+        return new SimulationEngine(directions, map, animalsPositions, moveDelay);
     }
 
     @Override
@@ -85,6 +81,7 @@ public class App extends Application implements IPositionChangeObserver {
         // creating info panel insides
         Button animStart = new Button("Start");
         TextField input = new TextField();
+        textInput = input;
 
         // creating info panel
         HBox controls = new HBox();

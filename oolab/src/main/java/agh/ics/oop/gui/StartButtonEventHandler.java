@@ -4,6 +4,8 @@ import agh.ics.oop.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import java.util.Arrays;
+
 public class StartButtonEventHandler implements EventHandler<ActionEvent> {
 
     App app;
@@ -13,10 +15,26 @@ public class StartButtonEventHandler implements EventHandler<ActionEvent> {
     }
 
     @Override
-    public void handle(ActionEvent event) {
-        if (app.engineThread.isAlive()) {
-            app.engineThread.stop();
+    public synchronized void handle(ActionEvent event) {
+        // get new arguments if any
+        String[] newArguments = app.textInput.getText().split(" ");
+        if (newArguments[0].equals("")) {
+            app.arguments = new String[]{};
         }
-        app.engineThread.start();
+        else {
+            app.arguments = newArguments;
+        }
+
+        if (app.engineThread.isAlive()) {
+            app.engineThread.running.set(false);
+        } else if (app.engineThread.getState() == Thread.State.NEW) {
+            app.engineThread.start();
+        }
+        else {
+            app.engineThread = app.generateNewThread(400, 8,
+                    new Vector2d[]{new Vector2d(1, 1)});
+            app.displayCreator.setNewMap(app.map);
+            app.engineThread.start();
+        }
     }
 }

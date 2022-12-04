@@ -1,5 +1,6 @@
 package agh.ics.oop.interfaces;
 
+import agh.ics.oop.MapDirection;
 import agh.ics.oop.Vector2d;
 import javafx.scene.image.Image;
 
@@ -24,4 +25,11 @@ public interface IMapElement {
      * @return Image.
      */
     Image getImage();
+
+    /**
+     * Return orientation of given object
+     *
+     * @return Orientation.
+     */
+    MapDirection getDirection();
 }
