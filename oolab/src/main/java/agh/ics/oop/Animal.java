@@ -72,7 +72,6 @@ public class Animal implements IMapElement, IPositionChangeObserverHolder{
         }
         if (!map.canMoveTo(this.position)) {
             this.position = before_vec;
-            return;
         }
         this.positionChanged(before_vec, this.position);
     }
