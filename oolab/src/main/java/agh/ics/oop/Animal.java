@@ -1,10 +1,15 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import agh.ics.oop.interfaces.IMapElement;
+import agh.ics.oop.interfaces.IPositionChangeObserver;
+import agh.ics.oop.interfaces.IPositionChangeObserverHolder;
+import agh.ics.oop.interfaces.IWorldMap;
+import javafx.scene.image.Image;
 
-public class Animal implements IMapElement, IPositionChangeObserverHolder{
+import java.io.FileInputStream;
+import java.util.ArrayList;
+
+public class Animal implements IMapElement, IPositionChangeObserverHolder {
     private Vector2d position = new Vector2d(2,2);
     private MapDirection orientation = MapDirection.NORTH;
     private final IWorldMap map;
@@ -23,13 +28,7 @@ public class Animal implements IMapElement, IPositionChangeObserverHolder{
 
     @Override
     public String toString() {
-        return switch (this.orientation) {
-            case NORTH -> "N";
-            case EAST -> "E";
-            case SOUTH -> "S";
-            case WEST -> "W";
-            default -> "X";
-        };
+        return "Z " + this.position.toString();
     }
 
     @Override
@@ -55,6 +54,21 @@ public class Animal implements IMapElement, IPositionChangeObserverHolder{
     @Override
     public Vector2d getPosition(){
         return this.position;
+    }
+
+    @Override
+    public Image getImage(){
+        String path = "";
+        switch (this.orientation) {
+            case NORTH -> path = "/Images/up.png";
+            case SOUTH -> path = "/Images/down.png";
+            case EAST -> path = "/Images/right.png";
+            case WEST -> path = "/Images/left.png";
+            case NO_DIRECTION -> path = "";
+        }
+
+        Image image = new Image(getClass().getResourceAsStream(path));
+        return image;
     }
 
     public void move(MoveDirection direction){

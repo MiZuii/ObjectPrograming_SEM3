@@ -1,8 +1,8 @@
 package agh.ics.oop;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
+import agh.ics.oop.interfaces.IEngine;
+import agh.ics.oop.interfaces.IWorldMap;
+
 import java.lang.Thread;
 
 public class SimulationEngine implements IEngine, Runnable{

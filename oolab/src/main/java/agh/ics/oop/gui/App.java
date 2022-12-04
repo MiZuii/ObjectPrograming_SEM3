@@ -1,20 +1,28 @@
 package agh.ics.oop.gui;
 
 import agh.ics.oop.*;
+import agh.ics.oop.interfaces.IPositionChangeObserver;
+import agh.ics.oop.interfaces.IWorldMap;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
 
-public class App extends Application implements IPositionChangeObserver{
+import java.util.Arrays;
+
+public class App extends Application implements IPositionChangeObserver {
 
     Thread engineThread;
     Stage appStage;
     AppGridCreator displayCreator;
     IWorldMap map;
+    String[] arguments;
+    EventHandler<ActionEvent> startButtonH;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -24,17 +32,25 @@ public class App extends Application implements IPositionChangeObserver{
         displayCreator = new AppGridCreator(makeScene(), this.map);
         positionChanged(new Vector2d(0, 0), new Vector2d(0, 0)); // runs only to generate initial grid
         appStage.show();
-        engineThread.start();
     }
 
     @Override
     public void init(){
-        MoveDirection[] directions = new OptionsParser().parse(getParameters().getRaw().toArray(new String[0]));
-        this.map = new GrassField(10);
+        startButtonH = new StartButtonEventHandler(this);
+        engineThread = generateNewThread(200, 8,
+                new Vector2d[]{new Vector2d(3, 3),
+                        new Vector2d(2, 3),
+                        new Vector2d(2, 2),
+                        new Vector2d(3, 2)});
+    }
+
+    public Thread generateNewThread(int moveDelay, int mapSize, Vector2d[] animalsPositions){
+        arguments = getParameters().getRaw().toArray(String[]::new);
+        MoveDirection[] directions = new OptionsParser().parse(arguments);
+        map = new GrassField(mapSize);
         map.setAppObserver(this);
-        Vector2d[] positions = {new Vector2d(5, 5), new Vector2d(4, 5), new Vector2d(4, 4), new Vector2d(5, 4)};
-        SimulationEngine engine = new SimulationEngine(directions, map, positions, 500);
-        engineThread = new Thread(engine);
+        SimulationEngine engine = new SimulationEngine(directions, map, animalsPositions, moveDelay);
+        return new Thread(engine);
     }
 
     @Override
@@ -79,8 +95,8 @@ public class App extends Application implements IPositionChangeObserver{
         root.getChildren().addAll(controls, display);
 
         // setting main scene
-        Scene scene = new Scene(root, 400, 400);
-        String path = this.getClass().getResource("GuiStyles.css").toExternalForm();
+        Scene scene = new Scene(root, 1000, 600);
+        String path = this.getClass().getResource("/Styles/GuiStyles.css").toExternalForm();
         scene.getStylesheets().add(path);
 
 
@@ -109,6 +125,9 @@ public class App extends Application implements IPositionChangeObserver{
         root.prefHeightProperty().bind(scene.heightProperty());
         root.getStyleClass().add("vbox");
         VBox.setVgrow(display, Priority.ALWAYS);
+
+        /* ------------- functionalities --------------- */
+        animStart.setOnAction(startButtonH);
 
         // finishing -------------
         appStage.setScene(scene);

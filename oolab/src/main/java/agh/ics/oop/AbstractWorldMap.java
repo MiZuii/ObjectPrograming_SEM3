@@ -1,8 +1,12 @@
 package agh.ics.oop;
 
+import agh.ics.oop.interfaces.IMapElement;
+import agh.ics.oop.interfaces.IPositionChangeObserver;
+import agh.ics.oop.interfaces.IWorldMap;
+
 import java.util.HashMap;
 
-abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
+abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     protected HashMap<Vector2d, IMapElement> map;
     protected IPositionChangeObserver appObserver;
     public MapBoundary mapBoundary;

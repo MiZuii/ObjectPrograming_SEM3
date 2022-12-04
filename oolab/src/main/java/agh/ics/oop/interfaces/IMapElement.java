@@ -1,4 +1,7 @@
-package agh.ics.oop;
+package agh.ics.oop.interfaces;
+
+import agh.ics.oop.Vector2d;
+import javafx.scene.image.Image;
 
 /**
  * The interface responsible for provideing compatibility
@@ -14,4 +17,11 @@ public interface IMapElement {
      * @return Position.
      */
     Vector2d getPosition();
+
+    /**
+     * Return image of given element
+     *
+     * @return Image.
+     */
+    Image getImage();
 }

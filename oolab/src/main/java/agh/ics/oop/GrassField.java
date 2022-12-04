@@ -1,8 +1,9 @@
 package agh.ics.oop;
+import agh.ics.oop.interfaces.IMapElement;
+
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Random;
 
 public class GrassField extends AbstractWorldMap {

@@ -1,4 +1,8 @@
-package agh.ics.oop;
+package agh.ics.oop.interfaces;
+
+import agh.ics.oop.Vector2d;
+import agh.ics.oop.interfaces.IMapElement;
+import agh.ics.oop.interfaces.IPositionChangeObserver;
 
 /**
  * The interface responsible for interacting with the map of the world.

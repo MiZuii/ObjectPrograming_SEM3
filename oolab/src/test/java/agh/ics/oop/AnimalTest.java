@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-import org.junit.jupiter.api.BeforeAll;
+import agh.ics.oop.interfaces.IWorldMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

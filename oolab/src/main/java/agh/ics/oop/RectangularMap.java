@@ -1,4 +1,6 @@
 package agh.ics.oop;
+import agh.ics.oop.interfaces.IMapElement;
+
 import java.util.HashMap;
 
 public class RectangularMap extends AbstractWorldMap {
