@@ -12,6 +12,7 @@ public class RectangularMap extends AbstractWorldMap {
         this.width = width;
         this.height = height;
         this.map = new HashMap<>();
+        this.mapBoundary = new MapBoundary();
         mapBoundary.addElement(new Vector2d(0, 0));
         mapBoundary.addElement(new Vector2d((this.width-1), (this.height-1)));
     }

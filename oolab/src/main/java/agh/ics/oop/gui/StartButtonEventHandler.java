@@ -4,8 +4,6 @@ import agh.ics.oop.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-import java.util.Arrays;
-
 public class StartButtonEventHandler implements EventHandler<ActionEvent> {
 
     App app;

@@ -39,17 +39,6 @@ class AnimalTest {
     }
 
     @Test
-    void testToString() {
-        assertEquals("N", animal1.toString());
-        assertEquals("E", animal2.toString());
-        assertEquals("W", animal3.toString());
-        assertEquals("S", animal4.toString());
-        assertEquals("S", animal5.toString());
-        assertEquals("N", animal6.toString());
-        assertEquals("N", animal7.toString());
-    }
-
-    @Test
     void isAt() {
         assertTrue(animal1.isAt(new Vector2d(2, 2)));
         assertTrue(animal3.isAt(new Vector2d(1, 4)));

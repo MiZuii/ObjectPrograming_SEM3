@@ -30,20 +30,22 @@ public class MapBoundary implements IPositionChangeObserver {
         grassList.add(next);
     }
 
-    public void addGrass(Vector2d newGrass){
-        grassList.add(newGrass);
+    public void addGrass(Vector2d newGrassVector){
+        grassList.add(newGrassVector);
     }
 
     public Vector2d[] getDimentions() {
-        Vector2d GrassLL = grassList.get(0);
-        Vector2d GrassUR = grassList.get(0);
+        if (grassList.size() != 0) {
+            Vector2d GrassLL = grassList.get(0);
+            Vector2d GrassUR = grassList.get(0);
 
-        for (Vector2d position : grassList) {
-            GrassLL = GrassLL.lowerLeft(position);
-            GrassUR = GrassUR.upperRight(position);
+            for (Vector2d position : grassList) {
+                GrassLL = GrassLL.lowerLeft(position);
+                GrassUR = GrassUR.upperRight(position);
+            }
+            return new Vector2d[]{xSet.first().lowerLeft(ySet.first()).lowerLeft(GrassLL),
+                    xSet.last().upperRight(ySet.last()).upperRight(GrassUR)};
         }
-
-        return new Vector2d[]{xSet.first().lowerLeft(ySet.first()).lowerLeft(GrassLL),
-                xSet.last().upperRight(ySet.last()).upperRight(GrassUR)};
+        return new Vector2d[]{xSet.first().lowerLeft(ySet.first()), xSet.last().upperRight(ySet.last())};
     }
 }

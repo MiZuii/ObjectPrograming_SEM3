@@ -7,6 +7,11 @@
     -fx-background-color: #aa3037ff;
     -fx-text-fill: black;
     -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+    -fx-spacing: 8;
+}
+
+.text-field {
+    -fx-background-color: #b5e3e5;
 }
 
 .grid {

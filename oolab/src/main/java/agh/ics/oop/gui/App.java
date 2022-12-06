@@ -101,8 +101,9 @@ public class App extends Application implements IPositionChangeObserver {
 
         // controls Properties
         controls.getStyleClass().add("hbox");
-        HBox.setHgrow(input, Priority.ALWAYS);
-        HBox.setHgrow(animStart, Priority.ALWAYS);
+        input.getStyleClass().add("text-field");
+        HBox.setHgrow(input, Priority.SOMETIMES);
+        HBox.setHgrow(animStart, Priority.SOMETIMES);
 
         // display Properties
         display.getStyleClass().add("hbox");

@@ -42,8 +42,10 @@ public class Animal implements IMapElement, IPositionChangeObserverHolder {
     }
 
     private void positionChanged(Vector2d prev, Vector2d next) {
-        for(IPositionChangeObserver observer : observers) {
-            observer.positionChanged(prev, next);
+        if (observers.size() > 0){
+            for(IPositionChangeObserver observer : observers) {
+                observer.positionChanged(prev, next);
+            }
         }
     }
 

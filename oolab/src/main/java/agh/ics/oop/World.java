@@ -9,7 +9,7 @@ public class World {
         try {
             Application.launch(App.class, args);
         }
-        catch (IllegalArgumentException arg) {
+        catch (Exception arg) {
             System.out.println(arg);
         }
     }

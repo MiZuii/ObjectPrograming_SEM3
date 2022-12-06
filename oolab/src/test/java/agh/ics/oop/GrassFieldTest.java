@@ -97,17 +97,11 @@ class GrassFieldTest {
         Vector2d prevPosition;
         Vector2d startingPosition = animalPosition;
 
-        // position update should not move onto another animal
-        for(Vector2d position : animalPositions) {
-            assertFalse(this.map.positionChanged(animalPosition, position));
-        }
-        assertEquals(startingPosition, animalPosition);
-
         // place the first animal on every grass position
         for(Vector2d position : grassPositions) {
             // make a position update
             prevPosition = animalPosition;
-            assertTrue(this.map.positionChanged(animalPosition, position));
+            this.map.positionChanged(animalPosition, position);
             animalPosition = position;
 
             // check if positions got updated
@@ -122,76 +116,12 @@ class GrassFieldTest {
         for(Vector2d position : emptyPositions) {
             // make a position update
             prevPosition = animalPosition;
-            assertTrue(this.map.positionChanged(animalPosition, position));
+            this.map.positionChanged(animalPosition, position);
             animalPosition = position;
 
             // check if positions got updated
             assertNull(this.map.objectAt(prevPosition));
             assertTrue(this.map.objectAt(animalPosition) instanceof Animal);
-        }
-
-        // check additional positions outside of range <0, mapLength>
-        assertTrue(this.map.positionChanged(animalPosition, new Vector2d(mapLength+23, mapLength+12)));
-        assertTrue(this.map.positionChanged(new Vector2d(mapLength+23, mapLength+12), new Vector2d(-14, -349)));
-        assertTrue(this.map.positionChanged(new Vector2d(-14, -349), new Vector2d(mapLength/2, -59)));
-        assertTrue(this.map.positionChanged(new Vector2d(mapLength/2, -59), new Vector2d(-1, mapLength/4)));
-    }
-
-    @Test
-    void toStringComponents() {
-        // setup custom map
-        GrassField customMap = new GrassField(1);
-        mapLength = (int)Math.sqrt(10);
-        Vector2d initialGrassPosition = new Vector2d(0, 0);
-
-        // find initial placement of the grass
-        for(int row=0; row<mapLength; row++) {
-            for (int column=0; column<mapLength; column++) {
-                if(customMap.isOccupied(new Vector2d(column, row))) {
-                    initialGrassPosition = new Vector2d(column, row);
-                    break;
-                }
-            }
-        }
-        // initial test
-        assertArrayEquals(new Vector2d[]{initialGrassPosition, initialGrassPosition}, customMap.toStringComponents());
-
-        // create parameters for test -> both arrays must have the same size
-        Vector2d upperRight = initialGrassPosition;
-        Vector2d lowerLeft = initialGrassPosition;
-        Vector2d[] upperRightBound = new Vector2d[]{
-                new Vector2d(1, 1).add(initialGrassPosition),
-                new Vector2d(1, 3).add(initialGrassPosition),
-                new Vector2d(5, 1).add(initialGrassPosition),
-                new Vector2d(7, 2).add(initialGrassPosition),
-                new Vector2d(8, 8).add(initialGrassPosition),
-                new Vector2d(8, 9).add(initialGrassPosition),
-                new Vector2d(13, 6).add(initialGrassPosition),
-                new Vector2d(9, 15).add(initialGrassPosition),
-        };
-        Vector2d[] lowerLeftBound = new Vector2d[]{
-                new Vector2d(0, 0).add(initialGrassPosition),
-                new Vector2d(-2, 0).add(initialGrassPosition),
-                new Vector2d(0, -3).add(initialGrassPosition),
-                new Vector2d(2, -5).add(initialGrassPosition),
-                new Vector2d(-7, -7).add(initialGrassPosition),
-                new Vector2d(-4, -8).add(initialGrassPosition),
-                new Vector2d(-13, 0).add(initialGrassPosition),
-                new Vector2d(6, -15).add(initialGrassPosition),
-        };
-
-        for(int i=0; i<upperRightBound.length; i++) {
-            // update grass positions
-            if(!(customMap.isOccupied(upperRightBound[i]))) {
-                customMap.place(new Grass(upperRightBound[i]));
-            }
-            if(!(customMap.isOccupied(lowerLeftBound[i]))) {
-                customMap.place(new Grass(lowerLeftBound[i]));
-            }
-            upperRight = upperRight.upperRight(upperRightBound[i]);
-            lowerLeft = lowerLeft.lowerLeft(lowerLeftBound[i]);
-
-            assertArrayEquals(new Vector2d[]{lowerLeft, upperRight}, customMap.toStringComponents());
         }
     }
 
