@@ -16,23 +16,21 @@ public class StartButtonEventHandler implements EventHandler<ActionEvent> {
     public synchronized void handle(ActionEvent event) {
         // get new arguments if any
         String[] newArguments = app.textInput.getText().split(" ");
-        if (newArguments[0].equals("")) {
-            app.arguments = new String[]{};
-        }
-        else {
+        if (!newArguments[0].equals("")) {
             app.arguments = newArguments;
         }
 
-        if (app.engineThread.isAlive()) {
-            app.engineThread.running.set(false);
-        } else if (app.engineThread.getState() == Thread.State.NEW) {
-            app.engineThread.start();
-        }
-        else {
+        if (app.engineThread.getState() == Thread.State.TERMINATED) {
             app.engineThread = app.generateNewThread(400, 8,
                     new Vector2d[]{new Vector2d(1, 1)});
             app.displayCreator.setNewMap(app.map);
             app.engineThread.start();
+        } else if (app.engineThread.getState() == Thread.State.NEW) {
+            app.engineThread.start();
+        } else if (app.engineThread.getState() == Thread.State.RUNNABLE || app.engineThread.getState() == Thread.State.TIMED_WAITING){
+            app.engineThread.running.set(false);
+        } else if (app.engineThread.getState() == Thread.State.WAITING) {
+            app.engineThread.notify();
         }
     }
 }

@@ -37,7 +37,12 @@ public class SimulationEngine extends Thread implements IEngine{
         running.set(true);
         for (int iter=0; iter<moves.length; iter++) {
             if (!this.running.get()) {
-                return;
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                running.set(true);
             }
             try {
                 sleep(moveDelay);
