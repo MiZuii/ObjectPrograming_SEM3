@@ -16,33 +16,45 @@ import javafx.stage.*;
 public class App extends Application implements IPositionChangeObserver {
 
     SimulationEngine engineThread;
-    Stage appStage;
+    private Stage appStage;
     public AppGridCreator displayCreator;
     IWorldMap map;
     String[] arguments;
-    EventHandler<ActionEvent> startButtonH;
+    private EventHandler<ActionEvent> startButtonH;
     TextField textInput;
+    private final EventHandler<WindowEvent> disassembler = new Disassembler(this);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         // init appStage variable
         appStage = primaryStage;
+
+        // init displayCreator object
         displayCreator = new AppGridCreator(makeScene());
         displayCreator.setNewMap(this.map);
-        positionChanged(new Vector2d(0, 0), new Vector2d(0, 0)); // runs only to generate initial grid
+
+        // run positionChanged for updating display creator mapBoundaries and running initial map visualisation
+        positionChanged(new Vector2d(0, 0), new Vector2d(0, 0));
+
+        // add Disassembler event handler (for interrupting all threads when app window gets closed)
+        appStage.setOnCloseRequest(disassembler);
         appStage.show();
     }
 
     @Override
     public void init(){
+        // a new instance of button Handler is generated
         startButtonH = new StartButtonEventHandler(this);
+
+        // parsing arguments and generating initial thread
         arguments = getParameters().getRaw().toArray(String[]::new);
         engineThread = generateNewThread(400, 8,
                 new Vector2d[]{new Vector2d(1, 1)});
     }
 
     public SimulationEngine generateNewThread(int moveDelay, int mapSize, Vector2d[] animalsPositions){
+        // this methode generates new simulation thread and returns it
         MoveDirection[] directions = new OptionsParser().parse(arguments);
         this.map = new GrassField(mapSize);
         this.map.setAppObserver(this);
@@ -63,7 +75,7 @@ public class App extends Application implements IPositionChangeObserver {
     }
 
     private GridPane makeScene(){
-        // Generateing scene. Runs only once and returns GridPane
+        // Generating scene. Runs only once and returns GridPane
         // The GridPane is then used to regenerate the scene without running this methode
 
         /* --------------------- Structure ------------------- */

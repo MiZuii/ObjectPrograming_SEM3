@@ -12,7 +12,7 @@ public class SimulationEngine extends Thread implements IEngine{
     private MoveDirection[] moves;
     private IWorldMap map;
     private Animal[] animalOrder;
-    public int moveDelay;
+    private int moveDelay;
     public volatile AtomicBoolean running = new AtomicBoolean(false);
     private App app;
 
@@ -35,24 +35,26 @@ public class SimulationEngine extends Thread implements IEngine{
         }
     }
 
-    @Override
-    public synchronized void run() {
-        running.set(true);
-        for (int iter = 0; iter < moves.length; iter++) {
-            if (!this.running.get()) {
-                try {
-                    this.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                running.set(true);
-            }
-
+    private synchronized void pause(){
+        if (!this.running.get()) {
             try {
-                sleep(moveDelay);
-            } catch (Exception e) {
-                // catching the exception
-                System.out.println(e);
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException();
+            }
+            running.set(true);
+        }
+    }
+
+    @Override
+    public void run() {
+        running.set(true); // seting running to true just to make sure the thread doesn't stop imidietly
+        for (int iter = 0; iter < moves.length; iter++) {
+            try {
+                this.pause(); // checks if GUI button send a pause request -> if tes the thread is paused and waits for notify
+            }
+            catch (RuntimeException e){
+                this.interrupt();
             }
 
             switch (moves[iter]) {
@@ -62,6 +64,13 @@ public class SimulationEngine extends Thread implements IEngine{
                 case RIGHT -> this.animalOrder[iter % animalOrder.length].move(MoveDirection.RIGHT);
                 default -> {
                 }
+            }
+
+            try {
+                sleep(moveDelay);
+            } catch (Exception e) {
+                // catching the exception
+                this.interrupt();
             }
         }
     }

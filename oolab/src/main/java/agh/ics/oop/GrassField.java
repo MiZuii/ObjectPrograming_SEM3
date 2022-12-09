@@ -107,7 +107,11 @@ public class GrassField extends AbstractWorldMap {
         Vector2d newPosition = emptyPositions.get(randomizer.nextInt(emptyPositions.size()));
         positionChanged(position, newPosition);
         this.mapBoundary.positionChangedGrass(position, newPosition);
-        if (appObserver != null && ((App) appObserver).displayCreator != null) { // this may happen because the relocate is used in map init which is used while creating appObserver.displayCreator
+
+        // check for appObserver existence and display creator existence.
+        // Because this methode is used in map init which doesn't have
+        // displayCreator initiated its existence needs to be checked
+        if (appObserver != null && ((App) appObserver).displayCreator != null) {
             this.appObserver.positionChanged(position, newPosition);
         }
     }
