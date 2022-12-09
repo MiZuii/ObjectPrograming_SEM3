@@ -46,7 +46,7 @@ public class App extends Application implements IPositionChangeObserver {
         MoveDirection[] directions = new OptionsParser().parse(arguments);
         this.map = new GrassField(mapSize);
         this.map.setAppObserver(this);
-        return new SimulationEngine(directions, map, animalsPositions, moveDelay);
+        return new SimulationEngine(directions, map, animalsPositions, moveDelay, this);
     }
 
     @Override

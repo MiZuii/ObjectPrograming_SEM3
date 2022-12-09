@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.App;
 import agh.ics.oop.interfaces.IEngine;
 import agh.ics.oop.interfaces.IWorldMap;
 
@@ -13,13 +14,15 @@ public class SimulationEngine extends Thread implements IEngine{
     private Animal[] animalOrder;
     public int moveDelay;
     public volatile AtomicBoolean running = new AtomicBoolean(false);
+    private App app;
 
-    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions, int moveDelay){
+    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions, int moveDelay, App app){
         this.moves = moves;
         this.map = map;
         animalOrder = new Animal[positions.length];
         this.moveDelay = moveDelay;
         this.running.set(false);
+        this.app = app;
 
         for (int i=0; i< positions.length; i++) {
             Animal new_anim = new Animal(this.map, positions[i]);
@@ -33,9 +36,9 @@ public class SimulationEngine extends Thread implements IEngine{
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         running.set(true);
-        for (int iter=0; iter<moves.length; iter++) {
+        for (int iter = 0; iter < moves.length; iter++) {
             if (!this.running.get()) {
                 try {
                     this.wait();
@@ -44,20 +47,21 @@ public class SimulationEngine extends Thread implements IEngine{
                 }
                 running.set(true);
             }
+
             try {
                 sleep(moveDelay);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // catching the exception
                 System.out.println(e);
             }
 
             switch (moves[iter]) {
-                case FORWARD -> this.animalOrder[iter%animalOrder.length].move(MoveDirection.FORWARD);
-                case BACKWARD -> this.animalOrder[iter%animalOrder.length].move(MoveDirection.BACKWARD);
-                case LEFT -> this.animalOrder[iter%animalOrder.length].move(MoveDirection.LEFT);
-                case RIGHT -> this.animalOrder[iter%animalOrder.length].move(MoveDirection.RIGHT);
-                default -> {}
+                case FORWARD -> this.animalOrder[iter % animalOrder.length].move(MoveDirection.FORWARD);
+                case BACKWARD -> this.animalOrder[iter % animalOrder.length].move(MoveDirection.BACKWARD);
+                case LEFT -> this.animalOrder[iter % animalOrder.length].move(MoveDirection.LEFT);
+                case RIGHT -> this.animalOrder[iter % animalOrder.length].move(MoveDirection.RIGHT);
+                default -> {
+                }
             }
         }
     }

@@ -6,10 +6,16 @@ import javafx.event.EventHandler;
 
 public class StartButtonEventHandler implements EventHandler<ActionEvent> {
 
-    App app;
+    final App app;
 
     public StartButtonEventHandler(App app){
         this.app = app;
+    }
+
+    public void waitSync() throws InterruptedException {
+        synchronized (app.engineThread) {
+            app.engineThread.wait();
+        }
     }
 
     @Override
@@ -27,10 +33,13 @@ public class StartButtonEventHandler implements EventHandler<ActionEvent> {
             app.engineThread.start();
         } else if (app.engineThread.getState() == Thread.State.NEW) {
             app.engineThread.start();
-        } else if (app.engineThread.getState() == Thread.State.RUNNABLE || app.engineThread.getState() == Thread.State.TIMED_WAITING){
+        } else if (app.engineThread.getState() == Thread.State.RUNNABLE || app.engineThread.getState() == Thread.State.TIMED_WAITING) {
+            System.out.println(Thread.currentThread().getName());
             app.engineThread.running.set(false);
         } else if (app.engineThread.getState() == Thread.State.WAITING) {
-            app.engineThread.notify();
+            synchronized (app.engineThread) {
+                app.engineThread.notify();
+            }
         }
     }
 }
