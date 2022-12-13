@@ -55,7 +55,7 @@ public class App extends Application implements IPositionChangeObserver {
 
     public SimulationEngine generateNewThread(int moveDelay, int mapSize, Vector2d[] animalsPositions){
         // this methode generates new simulation thread and returns it
-        MoveDirection[] directions = new OptionsParser().parse(arguments);
+        MoveDirection[] directions = new OptionsParser().parse(this.arguments);
         this.map = new GrassField(mapSize);
         this.map.setAppObserver(this);
         return new SimulationEngine(directions, map, animalsPositions, moveDelay, this);
